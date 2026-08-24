@@ -2,1769 +2,3547 @@
 <html lang="hi">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport"
-      content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
 
-<title>Royal Ludo Offline</title>
+<meta name="viewport"
+      content="width=device-width,
+               initial-scale=1.0,
+               maximum-scale=1.0,
+               user-scalable=no,
+               viewport-fit=cover">
+
+<meta name="theme-color" content="#101810">
+
+<title>Royal Ludo - Offline</title>
 
 <style>
+/* =========================================================
+   ROYAL LUDO
+   SINGLE FILE OFFLINE GAME
+   HTML + CSS + JAVASCRIPT
+   ========================================================= */
+
 *{
-  box-sizing:border-box;
-  -webkit-tap-highlight-color:transparent;
+    box-sizing:border-box;
+    -webkit-tap-highlight-color:transparent;
 }
 
 html,body{
-  margin:0;
-  width:100%;
-  min-height:100%;
-  font-family:Arial,sans-serif;
-  background:#101827;
-  color:white;
+    margin:0;
+    padding:0;
+    width:100%;
+    min-height:100%;
+    background:
+        radial-gradient(circle at 50% 0%,
+        #314d32 0%,
+        #162217 42%,
+        #070b07 100%);
+    color:#fff;
+    font-family:Arial,Helvetica,sans-serif;
+}
+
+body{
+    min-height:100vh;
+    overflow-x:hidden;
 }
 
 button{
-  font-family:inherit;
-  cursor:pointer;
-  border:0;
+    font-family:inherit;
+    touch-action:manipulation;
 }
 
-.screen{
-  min-height:100vh;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  padding:20px;
+/* =========================================================
+   START SCREEN
+   ========================================================= */
+
+#startScreen{
+    min-height:100vh;
+    min-height:100svh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:20px;
 }
 
-.hidden{
-  display:none!important;
+.startBox{
+    width:min(520px,96vw);
+    padding:28px;
+    border-radius:30px;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(39,61,41,.98),
+            rgba(10,17,11,.98)
+        );
+
+    border:2px solid rgba(255,216,62,.65);
+
+    box-shadow:
+        0 0 55px rgba(255,202,42,.13),
+        inset 0 0 35px rgba(255,255,255,.025);
+
+    text-align:center;
 }
 
-/* HOME */
+.ludoLogo{
+    width:112px;
+    height:112px;
+    margin:0 auto 12px;
 
-.home{
-  width:min(1100px,100%);
-  min-height:650px;
-  border-radius:30px;
-  padding:35px;
-  background:
-    radial-gradient(circle at 20% 20%,#55c7ff55,transparent 30%),
-    radial-gradient(circle at 80% 80%,#ffcf4d55,transparent 30%),
-    linear-gradient(145deg,#17365e,#381b58);
-  box-shadow:0 25px 80px #0008;
-  text-align:center;
-  position:relative;
-  overflow:hidden;
+    border-radius:30px;
+
+    background:
+        conic-gradient(
+            #ef233c 0deg 90deg,
+            #27b94e 90deg 180deg,
+            #ffd32a 180deg 270deg,
+            #318df2 270deg 360deg
+        );
+
+    border:7px solid white;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    font-size:52px;
+
+    box-shadow:
+        0 12px 30px rgba(0,0,0,.45);
 }
 
-.crown{
-  font-size:70px;
+.startTitle{
+    margin:5px 0;
+    font-size:clamp(30px,8vw,42px);
+    font-weight:900;
+    letter-spacing:1px;
 }
 
-.logo{
-  font-size:clamp(45px,8vw,90px);
-  font-weight:1000;
-  letter-spacing:3px;
-  color:#ffd52a;
-  text-shadow:
-    0 6px 0 #9c5d00,
-    0 10px 25px #0009;
+.startSub{
+    color:#cbd8cb;
+    margin-bottom:22px;
 }
 
-.subtitle{
-  font-size:20px;
-  opacity:.9;
-  margin-bottom:40px;
+.optionTitle{
+    text-align:left;
+    color:#ffd83d;
+    font-size:15px;
+    font-weight:900;
+    margin:18px 0 9px;
 }
 
-.homeTokens{
-  display:flex;
-  justify-content:center;
-  gap:45px;
-  margin:20px 0 50px;
+.humanOptions{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:8px;
 }
 
-.bigToken{
-  width:75px;
-  height:95px;
-  border-radius:50% 50% 42% 42%;
-  box-shadow:
-    inset 8px 8px 10px #ffffff66,
-    inset -8px -10px 12px #0005,
-    0 12px 20px #0008;
+.humanBtn,
+.styleBtn{
+    border:1px solid rgba(255,255,255,.18);
+    background:#19261b;
+    color:#fff;
+
+    border-radius:13px;
+    padding:13px 5px;
+
+    font-weight:900;
+    cursor:pointer;
+
+    transition:.15s;
 }
 
-.red{background:#ed263b}
-.green{background:#21c95b}
-.yellow{background:#ffd22e}
-.blue{background:#298cff}
+.humanBtn.active,
+.styleBtn.active{
+    background:
+        linear-gradient(#ffe45c,#ffb400);
 
-.mainBtn{
-  padding:18px 55px;
-  border-radius:50px;
-  background:linear-gradient(#ffe85a,#ffae00);
-  color:#321c00;
-  font-size:24px;
-  font-weight:900;
-  box-shadow:0 8px 0 #a86500,0 15px 30px #0007;
+    color:#111;
+    border-color:#fff0a2;
+
+    box-shadow:
+        0 5px 14px rgba(255,190,0,.18);
 }
 
-.mainBtn:active{
-  transform:translateY(5px);
-  box-shadow:0 3px 0 #a86500;
+.humanBtn:active,
+.styleBtn:active,
+.smallBtn:active,
+.rollBtn:active,
+.startGameBtn:active{
+    transform:scale(.97);
 }
 
-.offline{
-  position:absolute;
-  right:25px;
-  top:25px;
-  background:#153d8d;
-  padding:10px 18px;
-  border-radius:30px;
+.styleOptions{
+    display:grid;
+    grid-template-columns:repeat(5,1fr);
+    gap:7px;
 }
 
-/* SETUP */
-
-.setup{
-  width:min(900px,100%);
-  background:#f8f1d8;
-  color:#252525;
-  border-radius:30px;
-  padding:30px;
-  box-shadow:0 30px 80px #0009;
+.styleBtn{
+    font-size:24px;
+    padding:10px 2px;
 }
 
-.setup h1{
-  text-align:center;
-  color:#d53a21;
-  font-size:40px;
+.startGameBtn{
+    width:100%;
+    margin-top:24px;
+    padding:17px;
+
+    border:0;
+    border-radius:18px;
+
+    background:
+        linear-gradient(#ffe76a,#ffb600);
+
+    color:#151515;
+
+    font-size:22px;
+    font-weight:900;
+
+    cursor:pointer;
+
+    box-shadow:
+        0 9px 22px rgba(255,184,0,.25);
 }
 
-.sectionTitle{
-  font-size:20px;
-  font-weight:bold;
-  margin:22px 0 12px;
+/* =========================================================
+   GAME SCREEN
+   ========================================================= */
+
+#gameScreen{
+    display:none;
+    width:100%;
+    min-height:100vh;
+    min-height:100svh;
+
+    padding:
+        max(9px,env(safe-area-inset-top))
+        max(9px,env(safe-area-inset-right))
+        max(12px,env(safe-area-inset-bottom))
+        max(9px,env(safe-area-inset-left));
 }
 
-.options{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:12px;
-}
+.gameHeader{
+    width:min(1050px,100%);
+    margin:0 auto 10px;
 
-.option{
-  padding:18px 10px;
-  border-radius:16px;
-  background:white;
-  box-shadow:0 4px 12px #0002;
-  font-weight:bold;
-}
-
-.option.active{
-  outline:4px solid #267cff;
-  background:#e8f2ff;
-}
-
-.tokenOptions{
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-  gap:15px;
-}
-
-.tokenChoice{
-  padding:15px;
-  border-radius:15px;
-  background:white;
-  text-align:center;
-  box-shadow:0 4px 12px #0002;
-}
-
-.tokenPreview{
-  width:45px;
-  height:55px;
-  margin:auto;
-  border-radius:50%;
-}
-
-.startGame{
-  display:block;
-  width:100%;
-  margin-top:30px;
-  padding:18px;
-  border-radius:20px;
-  background:#25c95b;
-  color:white;
-  font-size:24px;
-  font-weight:900;
-}
-
-/* GAME */
-
-.gameScreen{
-  min-height:100vh;
-  background:
-    radial-gradient(circle at center,#273f27,#07100b);
-  padding:10px;
-  overflow:hidden;
-}
-
-.gameTop{
-  width:min(1250px,100%);
-  margin:auto;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:10px;
-  padding:8px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
 }
 
 .gameTitle{
-  font-size:clamp(20px,4vw,35px);
-  font-weight:900;
-  color:#ffd53b;
+    font-size:clamp(22px,5vw,38px);
+    font-weight:900;
+}
+
+.headerButtons{
+    display:flex;
+    gap:7px;
 }
 
 .smallBtn{
-  padding:10px 16px;
-  border-radius:14px;
-  background:#ffffff22;
-  color:white;
-  border:1px solid #ffffff44;
+    border:1px solid rgba(255,255,255,.18);
+    background:#1b291d;
+    color:#fff;
+
+    border-radius:11px;
+    padding:9px 12px;
+
+    font-weight:900;
+    cursor:pointer;
 }
 
-/* BOARD AREA */
+/* =========================================================
+   PLAYER PANELS
+   ========================================================= */
 
-.boardArea{
-  width:min(1250px,100%);
-  margin:auto;
-  display:grid;
-  grid-template-columns:190px minmax(400px,700px) 190px;
-  grid-template-rows:auto auto;
-  gap:10px;
-  align-items:center;
-  justify-content:center;
+.playerPanels{
+    width:min(1050px,100%);
+    margin:0 auto 12px;
+
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:8px;
 }
 
-.diceBox{
-  width:170px;
-  min-height:150px;
-  border-radius:22px;
-  padding:12px;
-  background:#ffffff12;
-  border:2px solid #ffffff22;
-  text-align:center;
-  box-shadow:0 10px 30px #0006;
+.playerCard{
+    position:relative;
+
+    min-height:102px;
+    padding:10px;
+
+    border-radius:17px;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(32,45,34,.97),
+            rgba(16,24,17,.97)
+        );
+
+    border:2px solid rgba(255,255,255,.08);
+
+    transition:.2s;
 }
 
-.diceBox.active{
-  animation:pulse 1s infinite;
-  border-color:#ffe342;
-  box-shadow:0 0 25px #ffe34288;
+.playerCard.active{
+    border-color:#ffe052;
+
+    box-shadow:
+        0 0 20px rgba(255,215,60,.28);
+
+    transform:translateY(-2px);
 }
 
-.diceName{
-  font-weight:bold;
-  margin-bottom:8px;
+.playerCard.hiddenPlayer{
+    display:none;
 }
 
-.dice{
-  width:80px;
-  height:80px;
-  margin:auto;
-  border-radius:16px;
-  background:white;
-  color:#111;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:48px;
-  font-weight:900;
-  box-shadow:0 8px 15px #0007;
+.playerName{
+    display:flex;
+    align-items:center;
+    gap:7px;
+
+    font-weight:900;
+    font-size:14px;
 }
 
-.dice.roll{
-  animation:roll .45s linear;
+.playerDot{
+    width:14px;
+    height:14px;
+    border-radius:50%;
+    display:inline-block;
+    box-shadow:0 2px 4px rgba(0,0,0,.35);
 }
 
-.rollBtn{
-  margin-top:10px;
-  padding:8px 15px;
-  border-radius:12px;
-  background:#ffd52c;
-  font-weight:bold;
+.redDot{background:#ef233c;}
+.greenDot{background:#35bd58;}
+.yellowDot{background:#ffd32a;}
+.blueDot{background:#318df2;}
+
+.aiLabel{
+    position:absolute;
+    right:8px;
+    top:8px;
+
+    background:#7548ff;
+    color:white;
+
+    padding:3px 7px;
+    border-radius:7px;
+
+    font-size:10px;
+    font-weight:900;
 }
 
-@keyframes pulse{
-  50%{transform:scale(1.04)}
+.cardDice{
+    margin-top:8px;
+
+    width:52px;
+    height:52px;
+
+    border-radius:13px;
+
+    background:#fff;
+    color:#111;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    font-size:31px;
+    font-weight:900;
+
+    box-shadow:
+        0 5px 10px rgba(0,0,0,.25);
 }
 
-@keyframes roll{
-  0%{transform:rotate(0) scale(1)}
-  50%{transform:rotate(180deg) scale(1.15)}
-  100%{transform:rotate(360deg) scale(1)}
-}
+/* =========================================================
+   BOARD
+   ========================================================= */
 
-/* LUDO BOARD */
+.boardWrap{
+    width:min(760px,100%);
+    margin:0 auto;
+}
 
 .board{
-  position:relative;
-  width:min(88vw,700px);
-  aspect-ratio:1;
-  background:#fff;
-  border:10px solid #3c250d;
-  border-radius:12px;
-  box-shadow:0 20px 60px #000b;
-  overflow:visible;
-  z-index:1;
+    position:relative;
+
+    width:100%;
+    aspect-ratio:1/1;
+
+    border-radius:25px;
+
+    background:
+        linear-gradient(
+            145deg,
+            #f7f1df,
+            #dcd2b9
+        );
+
+    border:9px solid #5b351a;
+
+    box-shadow:
+        0 18px 50px rgba(0,0,0,.5),
+        inset 0 0 0 3px #f5d98b;
+
+    overflow:visible;
 }
 
-/* four homes */
+/* =========================================================
+   HOME AREAS
+   ========================================================= */
 
-.homeArea{
-  position:absolute;
-  width:40%;
-  height:40%;
-  padding:7%;
-  border:2px solid #ffffffaa;
+.home{
+    position:absolute;
+
+    width:29%;
+    height:29%;
+
+    padding:13px;
+
+    border-radius:19px;
+
+    z-index:2;
 }
 
-.homeArea.redHome{
-  left:0;
-  top:0;
-  background:#ed263b;
+.home.red{
+    left:1.5%;
+    top:1.5%;
+    background:#ef233c;
 }
 
-.homeArea.greenHome{
-  right:0;
-  top:0;
-  background:#21c95b;
+.home.green{
+    right:1.5%;
+    top:1.5%;
+    background:#27b94e;
 }
 
-.homeArea.blueHome{
-  left:0;
-  bottom:0;
-  background:#298cff;
+.home.yellow{
+    right:1.5%;
+    bottom:1.5%;
+    background:#ffd32a;
 }
 
-.homeArea.yellowHome{
-  right:0;
-  bottom:0;
-  background:#ffd22e;
+.home.blue{
+    left:1.5%;
+    bottom:1.5%;
+    background:#318df2;
 }
 
 .homeInner{
-  width:100%;
-  height:100%;
-  background:white;
-  border-radius:18px;
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  grid-template-rows:1fr 1fr;
-  gap:10px;
-  padding:12px;
+    width:100%;
+    height:100%;
+
+    border-radius:20px;
+
+    background:#fff;
+
+    padding:14px;
+
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    grid-template-rows:1fr 1fr;
+
+    gap:9px;
+
+    box-shadow:
+        inset 0 0 15px rgba(0,0,0,.18);
 }
 
-.slot{
-  border-radius:50%;
-  background:#ddd;
-  box-shadow:inset 0 3px 7px #0004;
+.baseSpot{
+    border-radius:50%;
+
+    background:
+        radial-gradient(
+            circle at 35% 25%,
+            #fff 0%,
+            #ddd 60%,
+            #aaa 100%
+        );
+
+    border:2px solid rgba(0,0,0,.08);
+
+    box-shadow:
+        inset 0 3px 5px rgba(255,255,255,.8),
+        0 3px 5px rgba(0,0,0,.2);
 }
 
-/* PATH */
+/* =========================================================
+   FIXED TRACK
+   ========================================================= */
 
-.path{
-  position:absolute;
-  left:30%;
-  top:0;
-  width:40%;
-  height:100%;
-  background:
-    linear-gradient(to bottom,
-      transparent 0 39%,
-      #ddd 39% 61%,
-      transparent 61%);
+.trackLayer{
+    position:absolute;
+    inset:0;
+    z-index:4;
 }
 
-.pathH{
-  position:absolute;
-  top:30%;
-  left:0;
-  width:100%;
-  height:40%;
-  background:
-    linear-gradient(to right,
-      transparent 0 39%,
-      #ddd 39% 61%,
-      transparent 61%);
+.trackCell{
+    position:absolute;
+
+    width:5.8%;
+    aspect-ratio:1/1;
+
+    transform:translate(-50%,-50%);
+
+    border-radius:8px;
+
+    background:#fffdf7;
+
+    border:2px solid #aaa08e;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    font-size:clamp(11px,2.7vw,22px);
+
+    box-shadow:
+        0 2px 4px rgba(0,0,0,.16);
+
+    z-index:4;
 }
 
-.cell{
-  position:absolute;
-  width:6.666%;
-  height:6.666%;
-  border:1px solid #7775;
-  background:#fff;
+.trackCell.redStart{
+    background:#ffc6cf;
 }
 
-/* center */
-
-.center{
-  position:absolute;
-  left:40%;
-  top:40%;
-  width:20%;
-  height:20%;
-  background:conic-gradient(
-    #21c95b 0 25%,
-    #ffd22e 25% 50%,
-    #298cff 50% 75%,
-    #ed263b 75% 100%
-  );
-  clip-path:polygon(50% 0,100% 50%,50% 100%,0 50%);
-  z-index:2;
+.trackCell.greenStart{
+    background:#c7f0ce;
 }
 
-/* TOKENS */
+.trackCell.yellowStart{
+    background:#fff0a6;
+}
+
+.trackCell.blueStart{
+    background:#c9e2ff;
+}
+
+.trackCell.safe{
+    background:
+        linear-gradient(
+            145deg,
+            #fff,
+            #f7eebc
+        );
+
+    border-color:#d3a51c;
+
+    box-shadow:
+        0 0 0 2px rgba(255,207,39,.28),
+        0 3px 5px rgba(0,0,0,.15);
+}
+
+.star{
+    font-size:clamp(13px,3vw,23px);
+}
+
+/* =========================================================
+   HOME LANES
+   ========================================================= */
+
+.laneLayer{
+    position:absolute;
+    inset:0;
+    z-index:5;
+}
+
+.laneCell{
+    position:absolute;
+
+    width:5.8%;
+    aspect-ratio:1/1;
+
+    transform:translate(-50%,-50%);
+
+    border-radius:8px;
+
+    border:2px solid rgba(0,0,0,.13);
+
+    box-shadow:
+        0 2px 4px rgba(0,0,0,.12);
+
+    z-index:5;
+}
+
+.lane-red{background:#ef233c;}
+.lane-green{background:#27b94e;}
+.lane-yellow{background:#ffd32a;}
+.lane-blue{background:#318df2;}
+
+/* =========================================================
+   CENTER
+   ========================================================= */
+
+.centerHome{
+    position:absolute;
+
+    left:38%;
+    top:38%;
+
+    width:24%;
+    height:24%;
+
+    z-index:20;
+
+    border:3px solid #9b917f;
+    border-radius:13px;
+
+    overflow:hidden;
+
+    background:#ddd6c7;
+
+    box-shadow:
+        0 5px 12px rgba(0,0,0,.2);
+}
+
+.centerPart{
+    position:absolute;
+    width:50%;
+    height:50%;
+}
+
+.centerRed{
+    left:0;
+    top:0;
+    background:#ef233c;
+    clip-path:polygon(0 0,100% 0,100% 100%);
+}
+
+.centerGreen{
+    right:0;
+    top:0;
+    background:#27b94e;
+    clip-path:polygon(0 0,100% 0,0 100%);
+}
+
+.centerYellow{
+    right:0;
+    bottom:0;
+    background:#ffd32a;
+    clip-path:polygon(100% 0,100% 100%,0 100%);
+}
+
+.centerBlue{
+    left:0;
+    bottom:0;
+    background:#318df2;
+    clip-path:polygon(0 0,100% 100%,0 100%);
+}
+
+.centerCrown{
+    position:absolute;
+
+    left:50%;
+    top:50%;
+
+    transform:translate(-50%,-50%);
+
+    z-index:30;
+
+    font-size:clamp(24px,7vw,48px);
+
+    filter:drop-shadow(0 3px 3px rgba(0,0,0,.3));
+}
+
+/* =========================================================
+   TOKENS
+   ========================================================= */
+
+.tokenLayer{
+    position:absolute;
+    inset:0;
+    z-index:100;
+    pointer-events:none;
+}
 
 .token{
-  position:absolute;
-  width:6.2%;
-  aspect-ratio:1;
-  border-radius:50%;
-  z-index:1000;
-  border:3px solid white;
-  box-shadow:
-    inset 5px 5px 8px #ffffff88,
-    inset -5px -7px 8px #0006,
-    0 7px 12px #0009;
-  transition:
-    left .25s ease,
-    top .25s ease,
-    transform .15s ease;
-  transform:translate(-50%,-50%);
+    position:absolute;
+
+    width:7.8%;
+    aspect-ratio:1/1;
+
+    transform:translate(-50%,-50%);
+
+    border-radius:50%;
+
+    border:3px solid #fff;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    z-index:100;
+
+    pointer-events:auto;
+
+    cursor:pointer;
+
+    user-select:none;
+
+    font-size:clamp(12px,3vw,24px);
+    font-weight:900;
+
+    box-shadow:
+        0 6px 10px rgba(0,0,0,.45),
+        inset 0 3px 6px rgba(255,255,255,.55);
+
+    transition:
+        left .13s linear,
+        top .13s linear,
+        transform .13s ease;
 }
 
-.token:hover{
-  transform:translate(-50%,-50%) scale(1.15);
+.token.red{
+    background:
+        radial-gradient(
+            circle at 32% 25%,
+            #ff9ca6,
+            #ef233c 55%,
+            #a80e25
+        );
 }
 
-.token.redToken{background:#ed263b}
-.token.greenToken{background:#21c95b}
-.token.blueToken{background:#298cff}
-.token.yellowToken{background:#ffd22e}
+.token.green{
+    background:
+        radial-gradient(
+            circle at 32% 25%,
+            #b2f5be,
+            #27b94e 55%,
+            #126b2a
+        );
+}
+
+.token.yellow{
+    background:
+        radial-gradient(
+            circle at 32% 25%,
+            #fffbc0,
+            #ffd32a 55%,
+            #c19800
+        );
+}
+
+.token.blue{
+    background:
+        radial-gradient(
+            circle at 32% 25%,
+            #b5d9ff,
+            #318df2 55%,
+            #1253a2
+        );
+}
 
 .token.movable{
-  animation:tokenPulse .8s infinite;
-  cursor:pointer;
+    animation:
+        tokenPulse .7s infinite alternate;
+
+    box-shadow:
+        0 0 0 4px #fff,
+        0 0 22px rgba(255,222,49,.95),
+        0 7px 11px rgba(0,0,0,.45);
 }
 
 @keyframes tokenPulse{
-  50%{
-    transform:translate(-50%,-50%) scale(1.25);
-    filter:brightness(1.3);
-  }
+    from{
+        transform:translate(-50%,-50%) scale(1);
+    }
+
+    to{
+        transform:translate(-50%,-50%) scale(1.12);
+    }
 }
 
-/* STATUS */
+.token.selected{
+    box-shadow:
+        0 0 0 5px #fff,
+        0 0 30px #ffe23c;
+}
+
+/* =========================================================
+   CONTROLS
+   ========================================================= */
+
+.controls{
+    width:min(760px,100%);
+
+    margin:13px auto 0;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    gap:12px;
+
+    flex-wrap:wrap;
+}
+
+.rollBtn{
+    min-width:190px;
+    min-height:62px;
+
+    border:0;
+    border-radius:18px;
+
+    background:
+        linear-gradient(#ffe96b,#ffb900);
+
+    color:#171717;
+
+    font-size:21px;
+    font-weight:900;
+
+    cursor:pointer;
+
+    box-shadow:
+        0 8px 19px rgba(255,190,0,.28);
+}
+
+.rollBtn:disabled{
+    opacity:.45;
+    cursor:not-allowed;
+}
+
+.diceBig{
+    width:68px;
+    height:68px;
+
+    border-radius:17px;
+
+    background:#fff;
+    color:#111;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    font-size:43px;
+    font-weight:900;
+
+    box-shadow:
+        0 6px 13px rgba(0,0,0,.3);
+}
+
+.diceBig.rolling{
+    animation:diceRoll .45s linear;
+}
+
+@keyframes diceRoll{
+    0%{transform:rotate(0) scale(1);}
+    25%{transform:rotate(90deg) scale(1.08);}
+    50%{transform:rotate(180deg) scale(.92);}
+    75%{transform:rotate(270deg) scale(1.08);}
+    100%{transform:rotate(360deg) scale(1);}
+}
 
 .status{
-  grid-column:2;
-  text-align:center;
-  font-size:20px;
-  font-weight:bold;
-  min-height:35px;
+    width:min(760px,100%);
+
+    margin:10px auto;
+
+    min-height:28px;
+
+    text-align:center;
+
+    color:#f6f6f6;
+
+    font-weight:900;
 }
 
-.turnDot{
-  display:inline-block;
-  width:16px;
-  height:16px;
-  border-radius:50%;
-  margin-right:7px;
-}
+/* =========================================================
+   WIN
+   ========================================================= */
 
-/* WIN */
+#winOverlay{
+    position:fixed;
+    inset:0;
 
-.winOverlay{
-  position:fixed;
-  inset:0;
-  background:#000b;
-  z-index:5000;
-  display:flex;
-  align-items:center;
-  justify-content:center;
+    display:none;
+    align-items:center;
+    justify-content:center;
+
+    background:rgba(0,0,0,.84);
+
+    z-index:9999;
+
+    overflow:hidden;
 }
 
 .winBox{
-  width:min(550px,90%);
-  text-align:center;
-  padding:45px 25px;
-  border-radius:30px;
-  background:linear-gradient(145deg,#41217a,#1a397a);
-  box-shadow:0 30px 100px #000;
+    width:min(450px,90vw);
+
+    padding:34px 24px;
+
+    border-radius:28px;
+
+    background:
+        linear-gradient(
+            145deg,
+            #293d2b,
+            #101810
+        );
+
+    border:2px solid #ffe04b;
+
+    box-shadow:
+        0 0 70px rgba(255,215,60,.3);
+
+    text-align:center;
+
+    position:relative;
+    z-index:5;
+}
+
+.winEmoji{
+    font-size:76px;
 }
 
 .winBox h1{
-  font-size:55px;
-  color:#ffd43d;
+    margin:5px 0;
+    font-size:36px;
 }
+
+.winBox p{
+    color:#d7dfd7;
+}
+
+.restartBtn{
+    margin-top:18px;
+
+    padding:15px 28px;
+
+    border:0;
+    border-radius:15px;
+
+    background:
+        linear-gradient(#ffe45d,#ffb600);
+
+    color:#111;
+
+    font-size:18px;
+    font-weight:900;
+}
+
+/* =========================================================
+   CONFETTI
+   ========================================================= */
 
 .confetti{
-  font-size:45px;
-  margin:15px;
-  animation:jump .8s infinite alternate;
+    position:absolute;
+
+    top:-30px;
+
+    font-size:24px;
+
+    animation:
+        confettiFall 3.2s linear forwards;
+
+    z-index:2;
 }
 
-@keyframes jump{
-  to{transform:translateY(-15px) rotate(10deg)}
+@keyframes confettiFall{
+    to{
+        top:110vh;
+        transform:rotate(720deg);
+    }
 }
 
-/* RESPONSIVE */
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
 
-@media(max-width:850px){
-  .boardArea{
-    grid-template-columns:1fr 1fr;
-    grid-template-rows:auto auto auto;
-  }
+@media(max-width:700px){
 
-  .board{
-    grid-column:1 / 3;
-    grid-row:2;
-    width:min(92vw,650px);
-  }
+    #gameScreen{
+        padding:7px;
+    }
 
-  .status{
-    grid-column:1 / 3;
-    grid-row:3;
-  }
+    .playerPanels{
+        grid-template-columns:repeat(2,1fr);
+    }
 
-  .diceBox{
-    width:100%;
-  }
+    .playerCard{
+        min-height:84px;
+    }
+
+    .cardDice{
+        width:44px;
+        height:44px;
+        font-size:27px;
+    }
+
+    .home{
+        padding:9px;
+    }
+
+    .homeInner{
+        padding:9px;
+        gap:5px;
+    }
+
+    .board{
+        border-width:6px;
+    }
 }
 
-@media(max-width:500px){
-  .home{
-    padding:22px 15px;
-  }
+@media(max-width:430px){
 
-  .homeTokens{
-    gap:15px;
-  }
+    .startBox{
+        padding:20px 15px;
+    }
 
-  .bigToken{
-    width:48px;
-    height:65px;
-  }
+    .humanBtn{
+        padding:11px 3px;
+        font-size:12px;
+    }
 
-  .setup{
-    padding:18px;
-  }
+    .playerName{
+        font-size:12px;
+    }
 
-  .options{
-    grid-template-columns:1fr 1fr 1fr;
-  }
+    .rollBtn{
+        min-width:170px;
+    }
 
-  .tokenOptions{
-    grid-template-columns:1fr 1fr;
-  }
+    .smallBtn{
+        padding:8px 9px;
+    }
 
-  .diceBox{
-    min-height:120px;
-  }
-
-  .dice{
-    width:60px;
-    height:60px;
-    font-size:36px;
-  }
+    .gameTitle{
+        font-size:22px;
+    }
 }
 </style>
 </head>
 
 <body>
 
-<!-- ================= HOME ================= -->
+<!-- =========================================================
+     START SCREEN
+     ========================================================= -->
 
-<section id="homeScreen" class="screen">
+<section id="startScreen">
 
-  <div class="home">
+<div class="startBox">
 
-    <div class="offline">📴 100% OFFLINE</div>
+    <div class="ludoLogo">🎲</div>
 
-    <div class="crown">👑</div>
-
-    <div class="logo">LUDO</div>
-
-    <div class="subtitle">
-      छोटे Dice • बड़ी मस्ती ❤️
+    <div class="startTitle">
+        ROYAL LUDO
     </div>
 
-    <div class="homeTokens">
-      <div class="bigToken red"></div>
-      <div class="bigToken green"></div>
-      <div class="bigToken yellow"></div>
-      <div class="bigToken blue"></div>
+    <div class="startSub">
+        ऑफलाइन • AI • 2–4 खिलाड़ी
     </div>
 
-    <button class="mainBtn" onclick="openSetup()">
-      🎲 PLAY LUDO
+    <div class="optionTitle">
+        कितने इंसान खेलेंगे?
+    </div>
+
+    <div class="humanOptions">
+
+        <button class="humanBtn active" data-human="1">
+            1 मानव
+        </button>
+
+        <button class="humanBtn" data-human="2">
+            2 मानव
+        </button>
+
+        <button class="humanBtn" data-human="3">
+            3 मानव
+        </button>
+
+        <button class="humanBtn" data-human="4">
+            4 मानव
+        </button>
+
+    </div>
+
+    <div class="optionTitle">
+        गोटी का स्टाइल
+    </div>
+
+    <div class="styleOptions">
+
+        <button class="styleBtn active" data-style="classic">
+            ●
+        </button>
+
+        <button class="styleBtn" data-style="crown">
+            ♛
+        </button>
+
+        <button class="styleBtn" data-style="star">
+            ★
+        </button>
+
+        <button class="styleBtn" data-style="gem">
+            ◆
+        </button>
+
+        <button class="styleBtn" data-style="smile">
+            ☺
+        </button>
+
+    </div>
+
+    <button id="startBtn" class="startGameBtn">
+        🎮 GAME START
     </button>
 
-    <p>
-      Friends • Family • AI • Offline
-    </p>
-
-  </div>
+</div>
 
 </section>
 
 
-<!-- ================= SETUP ================= -->
+<!-- =========================================================
+     GAME SCREEN
+     ========================================================= -->
 
-<section id="setupScreen" class="screen hidden">
+<section id="gameScreen">
 
-  <div class="setup">
-
-    <h1>👑 LUDO GAME</h1>
-
-    <div class="sectionTitle">
-      कितने इंसान खेलेंगे?
-    </div>
-
-    <div class="options">
-
-      <button class="option humanCount active"
-              data-human="2">
-        👥 2 Players
-      </button>
-
-      <button class="option humanCount"
-              data-human="3">
-        👥 3 Players
-      </button>
-
-      <button class="option humanCount"
-              data-human="4">
-        👥 4 Players
-      </button>
-
-    </div>
-
-
-    <div class="sectionTitle">
-      AI के साथ खेलना
-    </div>
-
-    <div class="options">
-
-      <button class="option aiMode"
-              data-ai="0">
-        👤 सभी Human
-      </button>
-
-      <button class="option aiMode active"
-              data-ai="1">
-        🤖 AI Mode
-      </button>
-
-    </div>
-
-    <div id="aiOptions" class="options" style="margin-top:12px">
-
-      <button class="option aiCount"
-              data-ai-count="1">
-        1 AI
-      </button>
-
-      <button class="option aiCount active"
-              data-ai-count="2">
-        2 AI
-      </button>
-
-      <button class="option aiCount"
-              data-ai-count="3">
-        3 AI
-      </button>
-
-    </div>
-
-
-    <div class="sectionTitle">
-      अपनी गोटी चुनें
-    </div>
-
-    <div class="tokenOptions">
-
-      <button class="tokenChoice active"
-              data-token="red">
-        <div class="tokenPreview red"></div>
-        🔴 लाल
-      </button>
-
-      <button class="tokenChoice"
-              data-token="green">
-        <div class="tokenPreview green"></div>
-        🟢 हरा
-      </button>
-
-      <button class="tokenChoice"
-              data-token="yellow">
-        <div class="tokenPreview yellow"></div>
-        🟡 पीला
-      </button>
-
-      <button class="tokenChoice"
-              data-token="blue">
-        <div class="tokenPreview blue"></div>
-        🔵 नीला
-      </button>
-
-    </div>
-
-
-    <button class="startGame" onclick="startGame()">
-      ▶ START GAME
-    </button>
-
-  </div>
-
-</section>
-
-
-<!-- ================= GAME ================= -->
-
-<section id="gameScreen" class="gameScreen hidden">
-
-  <div class="gameTop">
+<div class="gameHeader">
 
     <div class="gameTitle">
-      👑 LUDO
+        🎲 ROYAL LUDO
     </div>
 
-    <button class="smallBtn" onclick="location.reload()">
-      🏠 Home
+    <div class="headerButtons">
+
+        <button class="smallBtn" id="fullscreenBtn">
+            ⛶
+        </button>
+
+        <button class="smallBtn" id="newGameBtn">
+            नया गेम
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- =========================================================
+     PLAYER PANELS
+     ========================================================= -->
+
+<div class="playerPanels" id="playerPanels">
+
+    <div class="playerCard" id="card0">
+
+        <div class="playerName">
+            <span class="playerDot redDot"></span>
+            PLAYER 1
+        </div>
+
+        <div class="cardDice" id="cardDice0">
+            ⚀
+        </div>
+
+    </div>
+
+
+    <div class="playerCard" id="card1">
+
+        <div class="playerName">
+            <span class="playerDot greenDot"></span>
+            PLAYER 2
+        </div>
+
+        <div class="cardDice" id="cardDice1">
+            ⚀
+        </div>
+
+    </div>
+
+
+    <div class="playerCard" id="card2">
+
+        <div class="playerName">
+            <span class="playerDot yellowDot"></span>
+            PLAYER 3
+        </div>
+
+        <div class="cardDice" id="cardDice2">
+            ⚀
+        </div>
+
+    </div>
+
+
+    <div class="playerCard" id="card3">
+
+        <div class="playerName">
+            <span class="playerDot blueDot"></span>
+            PLAYER 4
+        </div>
+
+        <div class="cardDice" id="cardDice3">
+            ⚀
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =========================================================
+     BOARD
+     ========================================================= -->
+
+<div class="boardWrap">
+
+<div class="board" id="board">
+
+
+<!-- RED HOME -->
+
+<div class="home red">
+
+    <div class="homeInner">
+
+        <div class="baseSpot" id="base-red-0"></div>
+        <div class="baseSpot" id="base-red-1"></div>
+        <div class="baseSpot" id="base-red-2"></div>
+        <div class="baseSpot" id="base-red-3"></div>
+
+    </div>
+
+</div>
+
+
+<!-- GREEN HOME -->
+
+<div class="home green">
+
+    <div class="homeInner">
+
+        <div class="baseSpot" id="base-green-0"></div>
+        <div class="baseSpot" id="base-green-1"></div>
+        <div class="baseSpot" id="base-green-2"></div>
+        <div class="baseSpot" id="base-green-3"></div>
+
+    </div>
+
+</div>
+
+
+<!-- YELLOW HOME -->
+
+<div class="home yellow">
+
+    <div class="homeInner">
+
+        <div class="baseSpot" id="base-yellow-0"></div>
+        <div class="baseSpot" id="base-yellow-1"></div>
+        <div class="baseSpot" id="base-yellow-2"></div>
+        <div class="baseSpot" id="base-yellow-3"></div>
+
+    </div>
+
+</div>
+
+
+<!-- BLUE HOME -->
+
+<div class="home blue">
+
+    <div class="homeInner">
+
+        <div class="baseSpot" id="base-blue-0"></div>
+        <div class="baseSpot" id="base-blue-1"></div>
+        <div class="baseSpot" id="base-blue-2"></div>
+        <div class="baseSpot" id="base-blue-3"></div>
+
+    </div>
+
+</div>
+
+
+<!-- TRACK -->
+
+<div id="trackLayer" class="trackLayer"></div>
+
+
+<!-- HOME LANES -->
+
+<div id="laneLayer" class="laneLayer"></div>
+
+
+<!-- CENTER -->
+
+<div class="centerHome">
+
+    <div class="centerPart centerRed"></div>
+    <div class="centerPart centerGreen"></div>
+    <div class="centerPart centerYellow"></div>
+    <div class="centerPart centerBlue"></div>
+
+    <div class="centerCrown">
+        🏆
+    </div>
+
+</div>
+
+
+<!-- TOKENS -->
+
+<div id="tokenLayer" class="tokenLayer"></div>
+
+</div>
+
+</div>
+
+
+<!-- =========================================================
+     CONTROLS
+     ========================================================= -->
+
+<div class="controls">
+
+    <div id="diceBig" class="diceBig">
+        ⚀
+    </div>
+
+    <button id="rollBtn" class="rollBtn">
+        🎲 पासा फेंको
     </button>
 
-  </div>
+</div>
 
-
-  <div class="boardArea">
-
-    <!-- RED DICE -->
-
-    <div id="dice-red"
-         class="diceBox">
-
-      <div class="diceName">🔴 PLAYER 1</div>
-
-      <div id="die-red"
-           class="dice">⚄</div>
-
-      <button class="rollBtn"
-              onclick="rollDice('red')">
-        🎲 ROLL
-      </button>
-
-    </div>
-
-
-    <!-- BOARD -->
-
-    <div id="board" class="board">
-
-      <div class="homeArea redHome">
-        <div class="homeInner">
-          <div class="slot"></div>
-          <div class="slot"></div>
-          <div class="slot"></div>
-          <div class="slot"></div>
-        </div>
-      </div>
-
-      <div class="homeArea greenHome">
-        <div class="homeInner">
-          <div class="slot"></div>
-          <div class="slot"></div>
-          <div class="slot"></div>
-          <div class="slot"></div>
-        </div>
-      </div>
-
-      <div class="homeArea blueHome">
-        <div class="homeInner">
-          <div class="slot"></div>
-          <div class="slot"></div>
-          <div class="slot"></div>
-          <div class="slot"></div>
-        </div>
-      </div>
-
-      <div class="homeArea yellowHome">
-        <div class="homeInner">
-          <div class="slot"></div>
-          <div class="slot"></div>
-          <div class="slot"></div>
-          <div class="slot"></div>
-        </div>
-      </div>
-
-      <div class="path"></div>
-      <div class="pathH"></div>
-
-      <div class="center"></div>
-
-      <!-- TOKENS -->
-
-      <div id="token-red-0"
-           class="token redToken"></div>
-
-      <div id="token-red-1"
-           class="token redToken"></div>
-
-      <div id="token-red-2"
-           class="token redToken"></div>
-
-      <div id="token-red-3"
-           class="token redToken"></div>
-
-
-      <div id="token-green-0"
-           class="token greenToken"></div>
-
-      <div id="token-green-1"
-           class="token greenToken"></div>
-
-      <div id="token-green-2"
-           class="token greenToken"></div>
-
-      <div id="token-green-3"
-           class="token greenToken"></div>
-
-
-      <div id="token-yellow-0"
-           class="token yellowToken"></div>
-
-      <div id="token-yellow-1"
-           class="token yellowToken"></div>
-
-      <div id="token-yellow-2"
-           class="token yellowToken"></div>
-
-      <div id="token-yellow-3"
-           class="token yellowToken"></div>
-
-
-      <div id="token-blue-0"
-           class="token blueToken"></div>
-
-      <div id="token-blue-1"
-           class="token blueToken"></div>
-
-      <div id="token-blue-2"
-           class="token blueToken"></div>
-
-      <div id="token-blue-3"
-           class="token blueToken"></div>
-
-    </div>
-
-
-    <!-- GREEN DICE -->
-
-    <div id="dice-green"
-         class="diceBox">
-
-      <div class="diceName">🟢 PLAYER 2</div>
-
-      <div id="die-green"
-           class="dice">⚄</div>
-
-      <button class="rollBtn"
-              onclick="rollDice('green')">
-        🎲 ROLL
-      </button>
-
-    </div>
-
-
-    <!-- BLUE DICE -->
-
-    <div id="dice-blue"
-         class="diceBox">
-
-      <div class="diceName">🔵 PLAYER 3</div>
-
-      <div id="die-blue"
-           class="dice">⚄</div>
-
-      <button class="rollBtn"
-              onclick="rollDice('blue')">
-        🎲 ROLL
-      </button>
-
-    </div>
-
-
-    <!-- YELLOW DICE -->
-
-    <div id="dice-yellow"
-         class="diceBox">
-
-      <div class="diceName">🟡 PLAYER 4</div>
-
-      <div id="die-yellow"
-           class="dice">⚄</div>
-
-      <button class="rollBtn"
-              onclick="rollDice('yellow')">
-        🎲 ROLL
-      </button>
-
-    </div>
-
-
-    <div id="status"
-         class="status">
-      गेम शुरू हो रहा है...
-    </div>
-
-  </div>
+<div id="status" class="status">
+    गेम शुरू हो रहा है...
+</div>
 
 </section>
 
 
-<!-- ================= WIN ================= -->
+<!-- =========================================================
+     WIN OVERLAY
+     ========================================================= -->
 
-<div id="winOverlay"
-     class="winOverlay hidden">
+<div id="winOverlay">
 
-  <div class="winBox">
+    <div class="winBox">
 
-    <div class="confetti">
-      🎉 🎊 🥳 🎊 🎉
+        <div class="winEmoji">
+            🎉🏆🎉
+        </div>
+
+        <h1 id="winTitle">
+            YOU WIN!
+        </h1>
+
+        <p id="winText">
+            खिलाड़ी जीत गया!
+        </p>
+
+        <button class="restartBtn" id="restartBtn">
+            🔄 फिर से खेलें
+        </button>
+
     </div>
-
-    <h1>YOU WON!</h1>
-
-    <p id="winnerText">
-      शानदार खेल!
-    </p>
-
-    <div class="confetti">
-      🏆 ✨ 🎆 ✨ 🏆
-    </div>
-
-    <button class="mainBtn"
-            onclick="location.reload()">
-      🔄 PLAY AGAIN
-    </button>
-
-  </div>
 
 </div>
 
 
 <script>
-
 /* =========================================================
-   OFFLINE LUDO
-   सभी code इसी HTML के अंदर है
+   ROYAL LUDO - JAVASCRIPT ENGINE
    ========================================================= */
 
 
-/* ---------- GAME SETTINGS ---------- */
+/* =========================================================
+   BASIC DATA
+   ========================================================= */
 
 const COLORS = [
-  "red",
-  "green",
-  "yellow",
-  "blue"
+    "red",
+    "green",
+    "yellow",
+    "blue"
 ];
 
-const diceFaces = [
-  "",
-  "⚀",
-  "⚁",
-  "⚂",
-  "⚃",
-  "⚄",
-  "⚅"
+const COLOR_NAMES = [
+    "RED",
+    "GREEN",
+    "YELLOW",
+    "BLUE"
 ];
 
-let humanPlayers = 2;
-let aiPlayers = 2;
-let selectedToken = "red";
-
-let players = [];
-let currentPlayer = 0;
-
-let rolling = false;
-let audioContext = null;
-
-
-/* ---------- HOME ---------- */
-
-function openSetup(){
-
-  document
-    .getElementById("homeScreen")
-    .classList.add("hidden");
-
-  document
-    .getElementById("setupScreen")
-    .classList.remove("hidden");
-}
+const DICE_SYMBOLS = [
+    "",
+    "⚀",
+    "⚁",
+    "⚂",
+    "⚃",
+    "⚄",
+    "⚅"
+];
 
 
-/* ---------- HUMAN COUNT ---------- */
+/*
+   52 fixed track positions.
 
-document.querySelectorAll(".humanCount")
-.forEach(button => {
+   ये coordinates percentage में हैं।
+   इसलिए screen छोटा या बड़ा होने पर भी
+   गोटी उसी निश्चित रास्ते पर रहेगी।
+*/
 
-  button.addEventListener("click",()=>{
+const TRACK = [];
 
-    document
-      .querySelectorAll(".humanCount")
-      .forEach(x=>x.classList.remove("active"));
-
-    button.classList.add("active");
-
-    humanPlayers =
-      Number(button.dataset.human);
-
-    updateAIOptions();
-
-  });
-
-});
-
-
-/* ---------- AI MODE ---------- */
-
-document.querySelectorAll(".aiMode")
-.forEach(button => {
-
-  button.addEventListener("click",()=>{
-
-    document
-      .querySelectorAll(".aiMode")
-      .forEach(x=>x.classList.remove("active"));
-
-    button.classList.add("active");
-
-    if(button.dataset.ai === "0"){
-
-      aiPlayers = 0;
-
-      document
-        .getElementById("aiOptions")
-        .classList.add("hidden");
-
-    }else{
-
-      document
-        .getElementById("aiOptions")
-        .classList.remove("hidden");
-
-      updateAIOptions();
-    }
-
-  });
-
-});
-
-
-/* ---------- AI COUNT ---------- */
-
-document.querySelectorAll(".aiCount")
-.forEach(button => {
-
-  button.addEventListener("click",()=>{
-
-    document
-      .querySelectorAll(".aiCount")
-      .forEach(x=>x.classList.remove("active"));
-
-    button.classList.add("active");
-
-    aiPlayers =
-      Number(button.dataset.aiCount);
-
-    updateAIOptions();
-
-  });
-
-});
-
-
-function updateAIOptions(){
-
-  const maxAI =
-    Math.min(3,4-humanPlayers);
-
-  document
-    .querySelectorAll(".aiCount")
-    .forEach(button=>{
-
-      const n =
-        Number(button.dataset.aiCount);
-
-      if(n <= maxAI){
-        button.disabled=false;
-        button.style.opacity="1";
-      }else{
-        button.disabled=true;
-        button.style.opacity=".35";
-      }
-
+for(let i=0;i<13;i++){
+    TRACK.push({
+        x:20 + i * 5,
+        y:20
     });
-
-  if(aiPlayers > maxAI){
-    aiPlayers = maxAI;
-
-    const btn =
-      document.querySelector(
-        `.aiCount[data-ai-count="${aiPlayers}"]`
-      );
-
-    if(btn){
-
-      document
-        .querySelectorAll(".aiCount")
-        .forEach(x=>x.classList.remove("active"));
-
-      btn.classList.add("active");
-    }
-  }
 }
 
-
-/* ---------- TOKEN SELECT ---------- */
-
-document.querySelectorAll(".tokenChoice")
-.forEach(button => {
-
-  button.addEventListener("click",()=>{
-
-    document
-      .querySelectorAll(".tokenChoice")
-      .forEach(x=>x.classList.remove("active"));
-
-    button.classList.add("active");
-
-    selectedToken =
-      button.dataset.token;
-
-  });
-
-});
-
-
-/* ---------- AUDIO ---------- */
-
-function initAudio(){
-
-  if(!audioContext){
-
-    audioContext =
-      new (window.AudioContext ||
-           window.webkitAudioContext)();
-
-  }
-
-  if(audioContext.state === "suspended"){
-    audioContext.resume();
-  }
-}
-
-
-function sound(freq=500,duration=.08){
-
-  try{
-
-    initAudio();
-
-    const oscillator =
-      audioContext.createOscillator();
-
-    const gain =
-      audioContext.createGain();
-
-    oscillator.frequency.value=freq;
-
-    oscillator.type="square";
-
-    gain.gain.setValueAtTime(
-      .06,
-      audioContext.currentTime
-    );
-
-    gain.gain.exponentialRampToValueAtTime(
-      .001,
-      audioContext.currentTime+duration
-    );
-
-    oscillator.connect(gain);
-    gain.connect(audioContext.destination);
-
-    oscillator.start();
-    oscillator.stop(
-      audioContext.currentTime+duration
-    );
-
-  }catch(e){}
-
-}
-
-
-function diceSound(){
-
-  sound(180,.07);
-
-  setTimeout(()=>{
-    sound(260,.07);
-  },80);
-
-  setTimeout(()=>{
-    sound(380,.1);
-  },160);
-
-}
-
-
-function moveSound(){
-
-  sound(650,.05);
-
-}
-
-
-/* ---------- START GAME ---------- */
-
-function startGame(){
-
-  initAudio();
-
-  players=[];
-
-  const total =
-    humanPlayers + aiPlayers;
-
-  let colorIndex=0;
-
-  for(let i=0;i<total;i++){
-
-    players.push({
-
-      color:COLORS[colorIndex],
-
-      ai:i >= humanPlayers,
-
-      tokens:[
-        {pos:-1},
-        {pos:-1},
-        {pos:-1},
-        {pos:-1}
-      ],
-
-      finished:0
-
+for(let i=1;i<=13;i++){
+    TRACK.push({
+        x:80,
+        y:20 + i * 5
     });
+}
 
-    colorIndex++;
+for(let i=1;i<=13;i++){
+    TRACK.push({
+        x:80 - i * 5,
+        y:85
+    });
+}
 
-  }
-
-  document
-    .getElementById("setupScreen")
-    .classList.add("hidden");
-
-  document
-    .getElementById("gameScreen")
-    .classList.remove("hidden");
-
-  setupDiceVisibility();
-
-  resetTokens();
-
-  currentPlayer=0;
-
-  updateTurn();
-
+for(let i=1;i<=13;i++){
+    TRACK.push({
+        x:15,
+        y:85 - i * 5
+    });
 }
 
 
-/* ---------- DICE VISIBILITY ---------- */
+/*
+   Player starts:
 
-function setupDiceVisibility(){
+   RED    = top
+   GREEN  = right
+   YELLOW = bottom
+   BLUE   = left
+*/
 
-  COLORS.forEach(color=>{
-
-    const box =
-      document.getElementById(
-        "dice-"+color
-      );
-
-    box.classList.add("hidden");
-
-  });
-
-
-  players.forEach(player=>{
-
-    const box =
-      document.getElementById(
-        "dice-"+player.color
-      );
-
-    box.classList.remove("hidden");
-
-  });
-
-}
+const START_INDEX = [
+    6,
+    19,
+    32,
+    45
+];
 
 
-/* ---------- TOKEN HOME POSITIONS ---------- */
+/*
+   छह home-lane cells.
+*/
 
-const homePositions={
+const LANES = {
 
-  red:[
-    [8,8],
-    [18,8],
-    [8,18],
-    [18,18]
-  ],
+    red:[
+        {x:45,y:25},
+        {x:45,y:30},
+        {x:45,y:35},
+        {x:45,y:40},
+        {x:45,y:45},
+        {x:50,y:50}
+    ],
 
-  green:[
-    [82,8],
-    [92,8],
-    [82,18],
-    [92,18]
-  ],
+    green:[
+        {x:75,y:45},
+        {x:70,y:45},
+        {x:65,y:45},
+        {x:60,y:45},
+        {x:55,y:45},
+        {x:50,y:50}
+    ],
 
-  yellow:[
-    [82,82],
-    [92,82],
-    [82,92],
-    [92,92]
-  ],
+    yellow:[
+        {x:55,y:75},
+        {x:55,y:70},
+        {x:55,y:65},
+        {x:55,y:60},
+        {x:55,y:55},
+        {x:50,y:50}
+    ],
 
-  blue:[
-    [8,82],
-    [18,82],
-    [8,92],
-    [18,92]
-  ]
-
+    blue:[
+        {x:25,y:55},
+        {x:30,y:55},
+        {x:35,y:55},
+        {x:40,y:55},
+        {x:45,y:55},
+        {x:50,y:50}
+    ]
 };
 
 
-/* ---------- PATH ---------- */
-
 /*
-  सरल offline playable path.
-  Board percentage coordinates.
+   Safe stars.
+
+   इन positions पर गोटी नहीं कटेगी।
 */
 
-const path=[];
+const SAFE_INDEX = new Set([
+    0,
+    6,
+    13,
+    19,
+    26,
+    32,
+    39,
+    45
+]);
 
-for(let i=0;i<52;i++){
 
-  let x;
-  let y;
+/*
+   Home base positions.
+*/
 
-  if(i<13){
+const HOME_POSITIONS = {
 
-    x=20+i*4.6;
-    y=47;
+    red:[
+        {x:14,y:14},
+        {x:24,y:14},
+        {x:14,y:24},
+        {x:24,y:24}
+    ],
 
-  }else if(i<26){
+    green:[
+        {x:76,y:14},
+        {x:86,y:14},
+        {x:76,y:24},
+        {x:86,y:24}
+    ],
 
-    x=80;
-    y=47+(i-13)*4.6;
+    yellow:[
+        {x:76,y:76},
+        {x:86,y:76},
+        {x:76,y:86},
+        {x:86,y:86}
+    ],
 
-  }else if(i<39){
+    blue:[
+        {x:14,y:76},
+        {x:24,y:76},
+        {x:14,y:86},
+        {x:24,y:86}
+    ]
+};
 
-    x=80-(i-26)*4.6;
-    y=53;
 
-  }else{
+/* =========================================================
+   GAME STATE
+   ========================================================= */
 
-    x=20;
-    y=53-(i-39)*4.6;
+let humanCount = 1;
+let tokenStyle = "classic";
 
-  }
+let currentPlayer = 0;
 
-  path.push([x,y]);
+let diceValue = 0;
 
+let diceRolling = false;
+
+let gameOver = false;
+
+let extraTurn = false;
+
+let lastWasSix = false;
+
+let audioContext = null;
+
+
+/*
+   Token progress:
+
+   -1  = home/base
+    0  = starting track cell
+    0-51 = main track
+   52-57 = home lane
+   58  = finished
+*/
+
+const FINISH_PROGRESS = 58;
+
+
+/*
+   Player objects.
+*/
+
+const players = COLORS.map((color,index)=>({
+
+    id:index,
+
+    color:color,
+
+    name:"PLAYER " + (index+1),
+
+    ai:false,
+
+    tokens:[]
+
+}));
+
+
+/*
+   Create four tokens per player.
+*/
+
+for(const player of players){
+
+    for(let i=0;i<4;i++){
+
+        player.tokens.push({
+
+            id:
+                player.color +
+                "-" +
+                i,
+
+            playerIndex:player.id,
+
+            index:i,
+
+            progress:-1,
+
+            finished:false,
+
+            element:null
+
+        });
+
+    }
 }
 
 
-/* ---------- RESET TOKENS ---------- */
+/* =========================================================
+   DOM
+   ========================================================= */
 
-function resetTokens(){
+const startScreen =
+    document.getElementById("startScreen");
 
-  players.forEach(player=>{
+const gameScreen =
+    document.getElementById("gameScreen");
 
-    player.tokens.forEach((token,i)=>{
+const startBtn =
+    document.getElementById("startBtn");
 
-      placeToken(
-        player.color,
-        i,
-        -1
-      );
+const rollBtn =
+    document.getElementById("rollBtn");
+
+const diceBig =
+    document.getElementById("diceBig");
+
+const statusBox =
+    document.getElementById("status");
+
+const trackLayer =
+    document.getElementById("trackLayer");
+
+const laneLayer =
+    document.getElementById("laneLayer");
+
+const tokenLayer =
+    document.getElementById("tokenLayer");
+
+const winOverlay =
+    document.getElementById("winOverlay");
+
+const winTitle =
+    document.getElementById("winTitle");
+
+const winText =
+    document.getElementById("winText");
+
+
+/* =========================================================
+   START OPTIONS
+   ========================================================= */
+
+document.querySelectorAll(".humanBtn")
+.forEach(button=>{
+
+    button.addEventListener("click",()=>{
+
+        document
+        .querySelectorAll(".humanBtn")
+        .forEach(b=>b.classList.remove("active"));
+
+        button.classList.add("active");
+
+        humanCount =
+            Number(button.dataset.human);
 
     });
 
-  });
+});
+
+
+document.querySelectorAll(".styleBtn")
+.forEach(button=>{
+
+    button.addEventListener("click",()=>{
+
+        document
+        .querySelectorAll(".styleBtn")
+        .forEach(b=>b.classList.remove("active"));
+
+        button.classList.add("active");
+
+        tokenStyle =
+            button.dataset.style;
+
+    });
+
+});
+
+
+/* =========================================================
+   AUDIO ENGINE
+   ========================================================= */
+
+function initAudio(){
+
+    if(audioContext){
+        return;
+    }
+
+    try{
+
+        audioContext =
+            new (window.AudioContext ||
+                 window.webkitAudioContext)();
+
+    }catch(e){
+
+        audioContext = null;
+
+    }
 
 }
 
 
-/* ---------- PLACE TOKEN ---------- */
+function beep(
+    frequency,
+    duration,
+    type="sine",
+    volume=.05
+){
 
-function placeToken(color,index,pos){
+    if(!audioContext){
+        return;
+    }
 
-  const element =
-    document.getElementById(
-      `token-${color}-${index}`
-    );
+    try{
 
-  if(!element) return;
+        const oscillator =
+            audioContext.createOscillator();
 
+        const gain =
+            audioContext.createGain();
 
-  if(pos === -1){
+        oscillator.type = type;
 
-    const p =
-      homePositions[color][index];
+        oscillator.frequency.value =
+            frequency;
 
-    element.style.left=p[0]+"%";
-    element.style.top=p[1]+"%";
+        gain.gain.setValueAtTime(
+            volume,
+            audioContext.currentTime
+        );
 
-  }else{
+        gain.gain.exponentialRampToValueAtTime(
+            .001,
+            audioContext.currentTime + duration
+        );
 
-    const p =
-      path[pos % path.length];
+        oscillator.connect(gain);
 
-    element.style.left=p[0]+"%";
-    element.style.top=p[1]+"%";
+        gain.connect(audioContext.destination);
 
-  }
+        oscillator.start();
 
-  /*
-    हमेशा सबसे ऊपर।
-  */
+        oscillator.stop(
+            audioContext.currentTime + duration
+        );
 
-  element.style.zIndex=1000;
+    }catch(e){}
 
 }
 
 
-/* ---------- UPDATE TURN ---------- */
+function soundDice(){
 
-function updateTurn(){
-
-  document
-    .querySelectorAll(".diceBox")
-    .forEach(x=>x.classList.remove("active"));
-
-  const player =
-    players[currentPlayer];
-
-  const box =
-    document.getElementById(
-      "dice-"+player.color
-    );
-
-  box.classList.add("active");
-
-  document
-    .getElementById("status")
-    .innerHTML =
-      `<span class="turnDot ${player.color}"></span>
-       ${player.ai ? "🤖 AI" : "👤 Human"}
-       — ${player.color.toUpperCase()} की चाल`;
-
-  if(player.ai){
+    beep(180,.06,"square",.045);
 
     setTimeout(()=>{
-
-      rollDice(player.color);
-
-    },900);
-
-  }
-
-}
-
-
-/* ---------- ROLL DICE ---------- */
-
-function rollDice(color){
-
-  if(rolling) return;
-
-  const player =
-    players[currentPlayer];
-
-  if(player.color !== color) return;
-
-  rolling=true;
-
-  diceSound();
-
-  const die =
-    document.getElementById(
-      "die-"+color
-    );
-
-  die.classList.remove("roll");
-
-  void die.offsetWidth;
-
-  die.classList.add("roll");
-
-  let count=0;
-
-  const animation =
-    setInterval(()=>{
-
-      const temp =
-        Math.floor(Math.random()*6)+1;
-
-      die.textContent =
-        diceFaces[temp];
-
-      count++;
-
-      if(count>=8){
-
-        clearInterval(animation);
-
-        const result =
-          Math.floor(Math.random()*6)+1;
-
-        die.textContent =
-          diceFaces[result];
-
-        rolling=false;
-
-        handleRoll(result);
-
-      }
-
+        beep(280,.06,"square",.04);
     },70);
 
+    setTimeout(()=>{
+        beep(420,.09,"square",.045);
+    },140);
+
 }
 
 
-/* ---------- HANDLE ROLL ---------- */
+function soundMove(){
 
-function handleRoll(number){
+    beep(440,.045,"sine",.025);
 
-  const player =
-    players[currentPlayer];
+}
 
-  /*
-    6 पर home token बाहर।
-  */
 
-  let moved=false;
+function soundCapture(){
 
-  if(number===6){
+    beep(120,.12,"sawtooth",.07);
 
-    const homeIndex =
-      player.tokens.findIndex(
-        t=>t.pos===-1
-      );
+    setTimeout(()=>{
+        beep(80,.18,"sawtooth",.05);
+    },100);
 
-    if(homeIndex!==-1){
+}
 
-      player.tokens[homeIndex].pos=0;
 
-      placeToken(
-        player.color,
-        homeIndex,
-        0
-      );
+function soundWin(){
 
-      moveSound();
+    const notes =
+        [523,659,784,1047,1319];
 
-      moved=true;
+    notes.forEach((note,i)=>{
+
+        setTimeout(()=>{
+            beep(note,.16,"sine",.07);
+        },i*120);
+
+    });
+
+}
+
+
+/* =========================================================
+   BUILD BOARD
+   ========================================================= */
+
+function buildBoard(){
+
+    trackLayer.innerHTML = "";
+
+    laneLayer.innerHTML = "";
+
+    /*
+       Main track.
+    */
+
+    TRACK.forEach((point,index)=>{
+
+        const cell =
+            document.createElement("div");
+
+        cell.className =
+            "trackCell";
+
+        cell.style.left =
+            point.x + "%";
+
+        cell.style.top =
+            point.y + "%";
+
+        if(index === START_INDEX[0]){
+            cell.classList.add("redStart");
+        }
+
+        if(index === START_INDEX[1]){
+            cell.classList.add("greenStart");
+        }
+
+        if(index === START_INDEX[2]){
+            cell.classList.add("yellowStart");
+        }
+
+        if(index === START_INDEX[3]){
+            cell.classList.add("blueStart");
+        }
+
+        if(SAFE_INDEX.has(index)){
+
+            cell.classList.add("safe");
+
+            const star =
+                document.createElement("span");
+
+            star.className = "star";
+
+            star.textContent = "★";
+
+            cell.appendChild(star);
+
+        }
+
+        trackLayer.appendChild(cell);
+
+    });
+
+
+    /*
+       Home lanes.
+    */
+
+    COLORS.forEach(color=>{
+
+        LANES[color].forEach((point,index)=>{
+
+            const cell =
+                document.createElement("div");
+
+            cell.className =
+                "laneCell lane-" + color;
+
+            cell.style.left =
+                point.x + "%";
+
+            cell.style.top =
+                point.y + "%";
+
+            if(index === 5){
+
+                cell.textContent = "★";
+
+                cell.style.display = "flex";
+                cell.style.alignItems = "center";
+                cell.style.justifyContent = "center";
+                cell.style.fontSize = "18px";
+
+            }
+
+            laneLayer.appendChild(cell);
+
+        });
+
+    });
+
+}
+
+
+/* =========================================================
+   TOKEN ELEMENTS
+   ========================================================= */
+
+function tokenCharacter(){
+
+    if(tokenStyle === "crown"){
+        return "♛";
+    }
+
+    if(tokenStyle === "star"){
+        return "★";
+    }
+
+    if(tokenStyle === "gem"){
+        return "◆";
+    }
+
+    if(tokenStyle === "smile"){
+        return "☺";
+    }
+
+    return "";
+}
+
+
+function createTokens(){
+
+    tokenLayer.innerHTML = "";
+
+    players.forEach(player=>{
+
+        player.tokens.forEach(token=>{
+
+            const el =
+                document.createElement("div");
+
+            el.className =
+                "token " + player.color;
+
+            el.dataset.token =
+                token.id;
+
+            el.textContent =
+                tokenCharacter();
+
+            el.addEventListener(
+                "click",
+                ()=>handleTokenClick(token)
+            );
+
+            token.element = el;
+
+            tokenLayer.appendChild(el);
+
+        });
+
+    });
+
+}
+
+
+/* =========================================================
+   TOKEN POSITION
+   ========================================================= */
+
+function getTrackPosition(
+    playerIndex,
+    progress
+){
+
+    const globalIndex =
+        (
+            START_INDEX[playerIndex] +
+            progress
+        ) % TRACK.length;
+
+    return TRACK[globalIndex];
+}
+
+
+function getTokenPosition(token){
+
+    const player =
+        players[token.playerIndex];
+
+    /*
+       Home.
+    */
+
+    if(token.progress === -1){
+
+        return HOME_POSITIONS[
+            player.color
+        ][token.index];
 
     }
 
-  }
+
+    /*
+       Finished.
+    */
+
+    if(token.progress >= FINISH_PROGRESS){
+
+        return {
+            x:50,
+            y:50
+        };
+
+    }
 
 
-  if(!moved){
+    /*
+       Home lane.
+    */
+
+    if(token.progress >= 52){
+
+        const laneIndex =
+            token.progress - 52;
+
+        return LANES[
+            player.color
+        ][laneIndex];
+
+    }
+
+
+    /*
+       Main track.
+    */
+
+    return getTrackPosition(
+        token.playerIndex,
+        token.progress
+    );
+
+}
+
+
+/* =========================================================
+   STACK OFFSET
+   ========================================================= */
+
+function getStackOffset(token){
+
+    const samePlace = [];
+
+    players.forEach(player=>{
+
+        player.tokens.forEach(other=>{
+
+            if(other === token){
+                return;
+            }
+
+            if(
+                other.progress < 0 ||
+                other.progress >= 58
+            ){
+                return;
+            }
+
+            if(
+                token.progress >= 0 &&
+                token.progress < 52 &&
+                other.progress >= 0 &&
+                other.progress < 52
+            ){
+
+                const a =
+                    (
+                        START_INDEX[token.playerIndex] +
+                        token.progress
+                    ) % 52;
+
+                const b =
+                    (
+                        START_INDEX[other.playerIndex] +
+                        other.progress
+                    ) % 52;
+
+                if(a === b){
+                    samePlace.push(other);
+                }
+
+            }
+
+            else if(
+                token.playerIndex === other.playerIndex &&
+                token.progress === other.progress
+            ){
+
+                samePlace.push(other);
+
+            }
+
+        });
+
+    });
+
+
+    if(samePlace.length === 0){
+        return {x:0,y:0};
+    }
+
+    const position =
+        samePlace.length % 4;
+
+    const offsets = [
+        {x:-1.8,y:-1.8},
+        {x:1.8,y:-1.8},
+        {x:-1.8,y:1.8},
+        {x:1.8,y:1.8}
+    ];
+
+    return offsets[position] ||
+           {x:0,y:0};
+
+}
+
+
+/* =========================================================
+   RENDER TOKENS
+   ========================================================= */
+
+function renderTokens(){
+
+    players.forEach(player=>{
+
+        player.tokens.forEach(token=>{
+
+            const position =
+                getTokenPosition(token);
+
+            const offset =
+                getStackOffset(token);
+
+            const x =
+                position.x + offset.x;
+
+            const y =
+                position.y + offset.y;
+
+            const el =
+                token.element;
+
+            if(!el){
+                return;
+            }
+
+            el.style.left =
+                x + "%";
+
+            el.style.top =
+                y + "%";
+
+            el.classList.remove(
+                "movable",
+                "selected"
+            );
+
+        });
+
+    });
+
+
+    /*
+       Highlight legal tokens.
+    */
+
+    if(
+        diceValue > 0 &&
+        !gameOver
+    ){
+
+        getMovableTokens(
+            currentPlayer,
+            diceValue
+        ).forEach(token=>{
+
+            token.element.classList.add(
+                "movable"
+            );
+
+        });
+
+    }
+
+}
+
+
+/* =========================================================
+   PLAYER SETUP
+   ========================================================= */
+
+function setupPlayers(){
+
+    players.forEach((player,index)=>{
+
+        player.ai =
+            index >= humanCount;
+
+        player.name =
+            player.ai
+            ? "AI " + (index+1)
+            : "PLAYER " + (index+1);
+
+        player.tokens.forEach(token=>{
+
+            token.progress = -1;
+            token.finished = false;
+
+        });
+
+    });
+
+}
+
+
+/* =========================================================
+   PLAYER CARDS
+   ========================================================= */
+
+function updatePlayerCards(){
+
+    players.forEach((player,index)=>{
+
+        const card =
+            document.getElementById(
+                "card" + index
+            );
+
+        const name =
+            card.querySelector(
+                ".playerName"
+            );
+
+        const dot =
+            name.querySelector(
+                ".playerDot"
+            );
+
+        const dice =
+            document.getElementById(
+                "cardDice" + index
+            );
+
+
+        card.classList.remove(
+            "active",
+            "hiddenPlayer"
+        );
+
+
+        if(
+            player.ai === false &&
+            index >= humanCount
+        ){
+
+            card.classList.add(
+                "hiddenPlayer"
+            );
+
+            return;
+
+        }
+
+
+        if(index === currentPlayer){
+
+            card.classList.add(
+                "active"
+            );
+
+        }
+
+
+        dot.className =
+            "playerDot " +
+            player.color + "Dot";
+
+
+        name.innerHTML = "";
+
+        const newDot =
+            document.createElement("span");
+
+        newDot.className =
+            "playerDot " +
+            player.color + "Dot";
+
+        name.appendChild(newDot);
+
+        name.appendChild(
+            document.createTextNode(
+                player.name
+            )
+        );
+
+
+        /*
+           AI label.
+        */
+
+        if(player.ai){
+
+            const old =
+                card.querySelector(
+                    ".aiLabel"
+                );
+
+            if(old){
+                old.remove();
+            }
+
+            const label =
+                document.createElement("span");
+
+            label.className =
+                "aiLabel";
+
+            label.textContent =
+                "AI";
+
+            card.appendChild(label);
+
+        }
+
+
+        dice.textContent =
+            DICE_SYMBOLS[
+                index === currentPlayer
+                ? diceValue || 1
+                : 1
+            ];
+
+    });
+
+}
+
+
+/* =========================================================
+   STATUS
+   ========================================================= */
+
+function setStatus(text){
+
+    statusBox.textContent =
+        text;
+
+}
+
+
+/* =========================================================
+   MOVEMENT RULES
+   ========================================================= */
+
+function canMoveToken(
+    token,
+    roll
+){
+
+    /*
+       Finished token cannot move.
+    */
+
+    if(token.progress >= FINISH_PROGRESS){
+        return false;
+    }
+
+
+    /*
+       Home token needs 6.
+    */
+
+    if(token.progress === -1){
+
+        return roll === 6;
+
+    }
+
+
+    /*
+       Exact finish required.
+    */
+
+    return (
+        token.progress + roll
+        <= FINISH_PROGRESS
+    );
+
+}
+
+
+/* =========================================================
+   GET MOVABLE TOKENS
+   ========================================================= */
+
+function getMovableTokens(
+    playerIndex,
+    roll
+){
+
+    const player =
+        players[playerIndex];
+
+    return player.tokens.filter(
+        token =>
+            canMoveToken(
+                token,
+                roll
+            )
+    );
+
+}
+
+
+/* =========================================================
+   ROLL DICE
+   ========================================================= */
+
+function randomDice(){
+
+    /*
+       Normal dice probability.
+
+       लगातार दो बार 6 आने पर
+       अगली बार 6 को रोकते हैं,
+       ताकि 6 बहुत ज्यादा लगातार न आए।
+    */
+
+    let value =
+        Math.floor(
+            Math.random() * 6
+        ) + 1;
+
+    if(
+        lastWasSix &&
+        value === 6
+    ){
+
+        value =
+            Math.floor(
+                Math.random() * 5
+            ) + 1;
+
+    }
+
+    lastWasSix =
+        value === 6;
+
+    return value;
+
+}
+
+
+/* =========================================================
+   ROLL ANIMATION
+   ========================================================= */
+
+async function animateDice(){
+
+    diceRolling = true;
+
+    rollBtn.disabled = true;
+
+    diceBig.classList.add(
+        "rolling"
+    );
+
+    soundDice();
+
+    for(let i=0;i<8;i++){
+
+        const temp =
+            Math.floor(
+                Math.random() * 6
+            ) + 1;
+
+        diceBig.textContent =
+            DICE_SYMBOLS[temp];
+
+        await wait(55);
+
+    }
+
+    diceBig.classList.remove(
+        "rolling"
+    );
+
+    diceRolling = false;
+
+}
+
+
+/* =========================================================
+   ROLL BUTTON
+   ========================================================= */
+
+rollBtn.addEventListener(
+    "click",
+    async ()=>{
+
+        if(
+            diceRolling ||
+            gameOver ||
+            players[currentPlayer].ai
+        ){
+            return;
+        }
+
+        initAudio();
+
+        if(
+            audioContext &&
+            audioContext.state === "suspended"
+        ){
+
+            await audioContext.resume();
+
+        }
+
+        await performRoll();
+
+    }
+);
+
+
+/* =========================================================
+   PERFORM ROLL
+   ========================================================= */
+
+async function performRoll(){
+
+    if(diceRolling){
+        return;
+    }
+
+    diceValue =
+        randomDice();
+
+    await animateDice();
+
+    diceBig.textContent =
+        DICE_SYMBOLS[diceValue];
+
+    document.getElementById(
+        "cardDice" + currentPlayer
+    ).textContent =
+        DICE_SYMBOLS[diceValue];
+
 
     const movable =
-      player.tokens.find(
-        t=>t.pos>=0 &&
-        t.pos<51
-      );
+        getMovableTokens(
+            currentPlayer,
+            diceValue
+        );
 
-    if(movable){
 
-      const index =
-        player.tokens.indexOf(movable);
+    if(movable.length === 0){
 
-      movable.pos += number;
+        setStatus(
+            players[currentPlayer].name +
+            " को इस पासे से कोई चाल नहीं मिली।"
+        );
 
-      if(movable.pos>=51){
+        renderTokens();
 
-        movable.pos=51;
+        await wait(850);
 
-        player.finished++;
+        if(diceValue === 6){
 
-      }
+            setStatus(
+                players[currentPlayer].name +
+                " को 6 मिला — फिर से चाल!"
+            );
 
-      placeToken(
-        player.color,
-        index,
-        movable.pos
-      );
+            diceValue = 0;
 
-      moveSound();
+            rollBtn.disabled =
+                players[currentPlayer].ai;
 
-      moved=true;
+            if(players[currentPlayer].ai){
+                scheduleAI();
+            }
+
+            return;
+
+        }
+
+
+        nextPlayer();
+
+        return;
 
     }
 
-  }
+
+    setStatus(
+        players[currentPlayer].name +
+        " — गोटी चुनें"
+    );
+
+    renderTokens();
 
 
-  /*
-    अगर 6 नहीं आया तो next player।
-  */
+    /*
+       AI automatically chooses.
+    */
 
-  if(number===6){
+    if(players[currentPlayer].ai){
 
-    setTimeout(()=>{
+        await wait(650);
 
-      updateTurn();
+        await aiChooseToken(
+            movable
+        );
 
-    },500);
-
-  }else{
-
-    setTimeout(()=>{
-
-      nextPlayer();
-
-    },700);
-
-  }
-
-
-  checkWinner();
+    }
 
 }
 
 
-/* ---------- NEXT PLAYER ---------- */
+/* =========================================================
+   TOKEN CLICK
+   ========================================================= */
+
+async function handleTokenClick(token){
+
+    if(gameOver){
+        return;
+    }
+
+    if(token.playerIndex !== currentPlayer){
+        return;
+    }
+
+    if(players[currentPlayer].ai){
+        return;
+    }
+
+    if(diceValue <= 0){
+        return;
+    }
+
+    if(
+        !canMoveToken(
+            token,
+            diceValue
+        )
+    ){
+        return;
+    }
+
+    document
+    .querySelectorAll(".token")
+    .forEach(el=>{
+        el.classList.remove(
+            "selected"
+        );
+    });
+
+    token.element.classList.add(
+        "selected"
+    );
+
+    await moveToken(
+        token,
+        diceValue
+    );
+
+}
+
+
+/* =========================================================
+   MOVE TOKEN
+   ========================================================= */
+
+async function moveToken(
+    token,
+    roll
+){
+
+    rollBtn.disabled = true;
+
+    token.element.classList.remove(
+        "movable"
+    );
+
+    /*
+       Home -> start.
+    */
+
+    if(token.progress === -1){
+
+        token.progress = 0;
+
+        renderTokens();
+
+        soundMove();
+
+        await wait(260);
+
+    }
+
+    else{
+
+        /*
+           Step-by-step movement.
+        */
+
+        for(let i=0;i<roll;i++){
+
+            token.progress++;
+
+            renderTokens();
+
+            soundMove();
+
+            await wait(115);
+
+        }
+
+    }
+
+
+    /*
+       Finish.
+    */
+
+    if(
+        token.progress >=
+        FINISH_PROGRESS
+    ){
+
+        token.progress =
+            FINISH_PROGRESS;
+
+        token.finished = true;
+
+        renderTokens();
+
+        beep(
+            880,
+            .18,
+            "sine",
+            .06
+        );
+
+        await wait(250);
+
+    }
+
+
+    /*
+       Capture.
+    */
+
+    const captured =
+        captureOpponents(token);
+
+    if(captured){
+
+        soundCapture();
+
+        setStatus(
+            players[currentPlayer].name +
+            " ने विरोधी की गोटी काट दी! 💥"
+        );
+
+        renderTokens();
+
+        await wait(500);
+
+    }
+
+
+    /*
+       Win.
+    */
+
+    if(
+        checkWin(
+            currentPlayer
+        )
+    ){
+
+        showWin(
+            currentPlayer
+        );
+
+        return;
+
+    }
+
+
+    /*
+       6 = extra turn.
+    */
+
+    if(roll === 6){
+
+        diceValue = 0;
+
+        setStatus(
+            players[currentPlayer].name +
+            " को 6 मिला — फिर से पासा फेंकें!"
+        );
+
+        renderTokens();
+
+        if(players[currentPlayer].ai){
+
+            scheduleAI();
+
+        }else{
+
+            rollBtn.disabled = false;
+
+        }
+
+        return;
+
+    }
+
+
+    diceValue = 0;
+
+    nextPlayer();
+
+}
+
+
+/* =========================================================
+   CAPTURE
+   ========================================================= */
+
+function getGlobalIndex(token){
+
+    if(
+        token.progress < 0 ||
+        token.progress >= 52
+    ){
+
+        return -1;
+
+    }
+
+    return (
+        START_INDEX[token.playerIndex] +
+        token.progress
+    ) % 52;
+
+}
+
+
+function captureOpponents(token){
+
+    /*
+       Home lane में capture नहीं।
+    */
+
+    if(
+        token.progress < 0 ||
+        token.progress >= 52
+    ){
+
+        return false;
+
+    }
+
+
+    const globalIndex =
+        getGlobalIndex(token);
+
+
+    /*
+       Safe cell पर capture नहीं।
+    */
+
+    if(
+        SAFE_INDEX.has(globalIndex)
+    ){
+
+        return false;
+
+    }
+
+
+    let captured = false;
+
+
+    players.forEach(player=>{
+
+        if(
+            player.id === token.playerIndex
+        ){
+            return;
+        }
+
+        player.tokens.forEach(other=>{
+
+            if(
+                other.progress < 0 ||
+                other.progress >= 52
+            ){
+                return;
+            }
+
+            if(
+                getGlobalIndex(other) ===
+                globalIndex
+            ){
+
+                /*
+                   एक सामान्य गोटी पर
+                   capture.
+                */
+
+                other.progress = -1;
+
+                other.finished = false;
+
+                captured = true;
+
+            }
+
+        });
+
+    });
+
+
+    return captured;
+
+}
+
+
+/* =========================================================
+   WIN CHECK
+   ========================================================= */
+
+function checkWin(playerIndex){
+
+    return players[playerIndex]
+        .tokens
+        .every(
+            token =>
+                token.progress >=
+                FINISH_PROGRESS
+        );
+
+}
+
+
+/* =========================================================
+   NEXT PLAYER
+   ========================================================= */
 
 function nextPlayer(){
 
-  currentPlayer++;
+    diceValue = 0;
 
-  if(currentPlayer>=players.length){
-    currentPlayer=0;
-  }
+    let next =
+        currentPlayer;
 
-  updateTurn();
+    do{
 
-}
+        next =
+            (next + 1) % 4;
 
-
-/* ---------- WINNER ---------- */
-
-function checkWinner(){
-
-  const player =
-    players[currentPlayer];
-
-  if(player.finished>=4){
-
-    document
-      .getElementById("winnerText")
-      .textContent =
-      `${player.color.toUpperCase()} PLAYER ने शानदार जीत हासिल की! 🎉`;
-
-    document
-      .getElementById("winOverlay")
-      .classList.remove("hidden");
-
-    celebrate();
-
-  }
-
-}
+    }while(
+        next !== currentPlayer &&
+        players[next].tokens.every(
+            token =>
+                token.progress >=
+                FINISH_PROGRESS
+        )
+    );
 
 
-/* ---------- CELEBRATION ---------- */
+    currentPlayer =
+        next;
 
-function celebrate(){
+    updatePlayerCards();
 
-  for(let i=0;i<12;i++){
-
-    setTimeout(()=>{
-
-      sound(
-        400 + Math.random()*600,
-        .12
-      );
-
-    },i*120);
-
-  }
-
-}
+    renderTokens();
 
 
-/* ---------- TOKEN CLICK ---------- */
+    setStatus(
+        players[currentPlayer].name +
+        " की बारी"
+    );
 
-document.addEventListener(
-  "click",
-  function(e){
 
-    if(!e.target.classList.contains("token")){
-      return;
+    if(players[currentPlayer].ai){
+
+        rollBtn.disabled = true;
+
+        scheduleAI();
+
+    }else{
+
+        rollBtn.disabled = false;
+
     }
 
+}
+
+
+/* =========================================================
+   AI
+   ========================================================= */
+
+function scheduleAI(){
+
+    setTimeout(
+        ()=>{
+
+            if(
+                gameOver ||
+                !players[currentPlayer].ai
+            ){
+                return;
+            }
+
+            performRoll();
+
+        },
+        700
+    );
+
+}
+
+
+/*
+   AI token choice.
+
+   Priority:
+
+   1. Capture
+   2. Finish
+   3. Bring token out on 6
+   4. Advance furthest
+*/
+
+async function aiChooseToken(
+    movable
+){
+
+    if(
+        !movable ||
+        movable.length === 0
+    ){
+
+        nextPlayer();
+
+        return;
+
+    }
+
+
+    let chosen =
+        movable[0];
+
+
     /*
-      गोटी हमेशा ऊपर रहेगी।
+       Capture simulation.
     */
 
-    e.target.style.zIndex=2000;
+    for(const token of movable){
 
-  }
+        const targetProgress =
+            token.progress === -1
+            ? 0
+            : token.progress + diceValue;
+
+        if(
+            targetProgress < 52
+        ){
+
+            const targetGlobal =
+                (
+                    START_INDEX[token.playerIndex] +
+                    targetProgress
+                ) % 52;
+
+            if(
+                !SAFE_INDEX.has(targetGlobal)
+            ){
+
+                const enemyExists =
+                    players.some(player=>{
+
+                        if(
+                            player.id ===
+                            token.playerIndex
+                        ){
+                            return false;
+                        }
+
+                        return player.tokens.some(other=>{
+
+                            return (
+                                other.progress >= 0 &&
+                                other.progress < 52 &&
+                                getGlobalIndex(other) ===
+                                targetGlobal
+                            );
+
+                        });
+
+                    });
+
+                if(enemyExists){
+
+                    chosen = token;
+
+                    break;
+
+                }
+
+            }
+
+        }
+
+    }
+
+
+    /*
+       Prefer exact finish.
+    */
+
+    for(const token of movable){
+
+        if(
+            token.progress >= 0 &&
+            token.progress + diceValue ===
+            FINISH_PROGRESS
+        ){
+
+            chosen = token;
+
+            break;
+
+        }
+
+    }
+
+
+    /*
+       On 6, prefer bringing home token out.
+    */
+
+    if(diceValue === 6){
+
+        const homeToken =
+            movable.find(
+                token =>
+                    token.progress === -1
+            );
+
+        if(homeToken){
+
+            chosen = homeToken;
+
+        }
+
+    }
+
+
+    /*
+       Otherwise move furthest.
+    */
+
+    if(
+        chosen === movable[0] &&
+        movable.length > 1
+    ){
+
+        chosen =
+            movable.reduce(
+                (best,token)=>
+                    token.progress >
+                    best.progress
+                    ? token
+                    : best,
+                movable[0]
+            );
+
+    }
+
+
+    await moveToken(
+        chosen,
+        diceValue
+    );
+
+}
+
+
+/* =========================================================
+   WAIT
+   ========================================================= */
+
+function wait(ms){
+
+    return new Promise(
+        resolve =>
+            setTimeout(
+                resolve,
+                ms
+            )
+    );
+
+}
+
+
+/* =========================================================
+   WIN SCREEN
+   ========================================================= */
+
+function showWin(playerIndex){
+
+    gameOver = true;
+
+    rollBtn.disabled = true;
+
+    const player =
+        players[playerIndex];
+
+    winTitle.textContent =
+        "🎉 " +
+        player.name +
+        " जीत गया!";
+
+    winText.textContent =
+        "चारों गोटियाँ Finish में पहुँच गईं! 🏆";
+
+    winOverlay.style.display =
+        "flex";
+
+    soundWin();
+
+    createConfetti();
+
+}
+
+
+/* =========================================================
+   CONFETTI
+   ========================================================= */
+
+function createConfetti(){
+
+    const emojis = [
+        "🎉",
+        "🎊",
+        "✨",
+        "⭐",
+        "🏆",
+        "💥",
+        "🥳"
+    ];
+
+    for(let i=0;i<70;i++){
+
+        const piece =
+            document.createElement("div");
+
+        piece.className =
+            "confetti";
+
+        piece.textContent =
+            emojis[
+                Math.floor(
+                    Math.random() *
+                    emojis.length
+                )
+            ];
+
+        piece.style.left =
+            Math.random()*100 +
+            "%";
+
+        piece.style.animationDelay =
+            Math.random()*1.5 +
+            "s";
+
+        piece.style.fontSize =
+            (16 + Math.random()*20) +
+            "px";
+
+        winOverlay.appendChild(
+            piece
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   START GAME
+   ========================================================= */
+
+startBtn.addEventListener(
+    "click",
+    async ()=>{
+
+        initAudio();
+
+        if(
+            audioContext &&
+            audioContext.state === "suspended"
+        ){
+
+            await audioContext.resume();
+
+        }
+
+        startGame();
+
+    }
 );
 
 
-/* ---------- PREVENT PAGE ZOOM ---------- */
+function startGame(){
+
+    setupPlayers();
+
+    buildBoard();
+
+    createTokens();
+
+    currentPlayer = 0;
+
+    diceValue = 0;
+
+    gameOver = false;
+
+    diceRolling = false;
+
+    lastWasSix = false;
+
+    winOverlay.style.display =
+        "none";
+
+
+    document
+    .querySelectorAll(".confetti")
+    .forEach(el=>el.remove());
+
+
+    startScreen.style.display =
+        "none";
+
+    gameScreen.style.display =
+        "block";
+
+
+    diceBig.textContent =
+        "⚀";
+
+
+    rollBtn.disabled =
+        players[0].ai;
+
+
+    updatePlayerCards();
+
+    renderTokens();
+
+
+    setStatus(
+        players[0].name +
+        " की बारी — पासा फेंकें"
+    );
+
+
+    if(players[0].ai){
+
+        scheduleAI();
+
+    }
+
+}
+
+
+/* =========================================================
+   NEW GAME
+   ========================================================= */
+
+document.getElementById(
+    "newGameBtn"
+).addEventListener(
+    "click",
+    ()=>{
+
+        gameScreen.style.display =
+            "none";
+
+        startScreen.style.display =
+            "flex";
+
+        winOverlay.style.display =
+            "none";
+
+        gameOver = false;
+
+    }
+);
+
+
+/* =========================================================
+   RESTART
+   ========================================================= */
+
+document.getElementById(
+    "restartBtn"
+).addEventListener(
+    "click",
+    ()=>{
+
+        winOverlay.style.display =
+            "none";
+
+        document
+        .querySelectorAll(".confetti")
+        .forEach(el=>el.remove());
+
+        startGame();
+
+    }
+);
+
+
+/* =========================================================
+   FULLSCREEN
+   ========================================================= */
+
+document.getElementById(
+    "fullscreenBtn"
+).addEventListener(
+    "click",
+    async ()=>{
+
+        try{
+
+            if(!document.fullscreenElement){
+
+                await document.documentElement
+                    .requestFullscreen();
+
+            }else{
+
+                await document.exitFullscreen();
+
+            }
+
+        }catch(e){
+
+            /*
+               कुछ mobile browsers
+               fullscreen API allow नहीं करते।
+            */
+
+        }
+
+    }
+);
+
+
+/* =========================================================
+   PREVENT DOUBLE TAP ZOOM
+   ========================================================= */
+
+let lastTouchEnd = 0;
 
 document.addEventListener(
-  "gesturestart",
-  e=>e.preventDefault()
+    "touchend",
+    event=>{
+
+        const now =
+            Date.now();
+
+        if(
+            now - lastTouchEnd <= 300
+        ){
+
+            event.preventDefault();
+
+        }
+
+        lastTouchEnd = now;
+
+    },
+    {passive:false}
 );
 
-document.addEventListener(
-  "gesturechange",
-  e=>e.preventDefault()
-);
 
-document.addEventListener(
-  "gestureend",
-  e=>e.preventDefault()
-);
+/* =========================================================
+   INITIAL BOARD
+   ========================================================= */
 
-
-/* ---------- INITIAL SETUP ---------- */
-
-updateAIOptions();
+buildBoard();
 
 </script>
 
