@@ -5,75 +5,176 @@
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>Ultimate Real 3D Ludo</title>
 <style>
-*{box-sizing:border-box;margin:0;padding:0;font-family:Segoe UI,sans-serif}
+*{
+box-sizing:border-box;
+margin:0;
+padding:0;
+font-family:Segoe UI,sans-serif
+}
+
 body{
-background:radial-gradient(circle at 50% -10%,#344765 0,#111827 38%,#020617 100%);
-color:#fff;display:flex;flex-direction:column;align-items:center;
-justify-content:center;min-height:100vh;padding:10px;overflow-x:hidden
+background:#090d16;
+color:#fff;
+display:flex;
+flex-direction:column;
+align-items:center;
+justify-content:center;
+min-height:100vh;
+padding:10px;
+overflow-x:hidden
 }
+
 h1{
-color:#38bdf8;font-size:22px;margin-bottom:9px;
-text-shadow:0 3px 5px #000,0 0 14px #38bdf855
+color:#38bdf8;
+font-size:22px;
+margin-bottom:9px;
+text-shadow:0 3px 6px #000
 }
+
 .mode-selection{
-display:flex;gap:7px;margin-bottom:12px;flex-wrap:wrap;justify-content:center
+display:flex;
+gap:7px;
+margin-bottom:12px;
+flex-wrap:wrap;
+justify-content:center
 }
+
 .mode-btn{
-padding:7px 13px;background:linear-gradient(145deg,#334155,#111827);
-color:#fff;border:2px solid #38bdf8;border-radius:8px;cursor:pointer;
-font-weight:800;font-size:12px;box-shadow:0 5px 0 #020617,inset 0 1px #ffffff33,0 8px 15px #0008
+padding:7px 13px;
+background:#182235;
+color:#fff;
+border:2px solid #38bdf8;
+border-radius:8px;
+cursor:pointer;
+font-weight:800;
+font-size:12px;
+box-shadow:0 5px 0 #07101d
 }
-.mode-btn:active{transform:translateY(4px);box-shadow:0 1px 0 #020617}
+
 .mode-btn.active{
-background:linear-gradient(145deg,#7dd3fc,#0ea5e9,#0369a1);
-color:#02111d;box-shadow:0 5px 0 #075985,0 0 18px #38bdf866
+background:#0ea5e9;
+color:#00111b;
+box-shadow:0 5px 0 #075985
 }
+
 #ludoCanvas{
-width:450px;height:450px;max-width:100%;background:#fff;border-radius:16px;
-box-shadow:0 25px 45px #000c,0 0 0 3px #334155,0 0 25px #38bdf833;
+width:450px;
+height:450px;
+max-width:100%;
+background:#e5e7eb;
+border-radius:16px;
+box-shadow:
+0 22px 45px #000c,
+0 0 0 3px #263244;
 touch-action:manipulation
 }
+
 .controls{
-margin-top:12px;width:100%;max-width:450px;display:flex;
-flex-direction:column;align-items:center;gap:10px
+margin-top:12px;
+width:100%;
+max-width:450px;
+display:flex;
+flex-direction:column;
+align-items:center;
+gap:10px
 }
+
 .status-box{
-width:100%;padding:11px 14px;text-align:center;font-size:15px;font-weight:800;
-border-radius:9px;color:#38bdf8;background:linear-gradient(145deg,#263449,#0f172a);
-border:1px solid #38bdf8;box-shadow:0 8px 18px #0008,inset 0 1px #ffffff22
+width:100%;
+padding:11px 14px;
+text-align:center;
+font-size:15px;
+font-weight:800;
+border-radius:9px;
+color:#38bdf8;
+background:#111a29;
+border:1px solid #38bdf8;
+box-shadow:0 8px 18px #0008
 }
-.dice-container{display:flex;align-items:center;justify-content:center;gap:17px}
+
+.dice-container{
+display:flex;
+align-items:center;
+justify-content:center;
+gap:17px
+}
+
 .dice-view{
-width:64px;height:64px;display:flex;align-items:center;justify-content:center;
-font-size:30px;font-weight:900;color:#0f172a;border-radius:14px;
-background:linear-gradient(145deg,#fff 0%,#f8fafc 35%,#cbd5e1 75%,#64748b 100%);
+width:64px;
+height:64px;
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:30px;
+font-weight:900;
+color:#111827;
+border-radius:14px;
+background:#f1f5f9;
 border:3px solid #38bdf8;
-box-shadow:inset 4px 4px 7px #fff,inset -5px -6px 10px #64748b,
-0 9px 0 #334155,0 14px 22px #000b,0 0 18px #38bdf844;
-transform-style:preserve-3d
+box-shadow:
+inset 0 -7px 10px #94a3b8,
+0 8px 0 #334155,
+0 13px 22px #000b
 }
-.dice-view.rolling{animation:dice3D .75s cubic-bezier(.2,.8,.2,1)}
-@keyframes dice3D{
-0%{transform:perspective(700px) rotateX(0) rotateY(0) rotateZ(0) scale(1)}
-20%{transform:perspective(700px) rotateX(130deg) rotateY(90deg) rotateZ(40deg) scale(.78)}
-45%{transform:perspective(700px) rotateX(300deg) rotateY(210deg) rotateZ(120deg) scale(1.1)}
-70%{transform:perspective(700px) rotateX(500deg) rotateY(330deg) rotateZ(230deg) scale(.9)}
-100%{transform:perspective(700px) rotateX(720deg) rotateY(360deg) rotateZ(360deg) scale(1)}
+
+.dice-view.rolling{
+animation:diceRoll .75s cubic-bezier(.2,.8,.2,1)
 }
+
+@keyframes diceRoll{
+0%{
+transform:rotateX(0) rotateY(0) rotateZ(0) scale(1)
+}
+25%{
+transform:rotateX(160deg) rotateY(90deg) rotateZ(45deg) scale(.8)
+}
+50%{
+transform:rotateX(320deg) rotateY(220deg) rotateZ(120deg) scale(1.08)
+}
+75%{
+transform:rotateX(510deg) rotateY(330deg) rotateZ(220deg) scale(.9)
+}
+100%{
+transform:rotateX(720deg) rotateY(360deg) rotateZ(360deg) scale(1)
+}
+}
+
 .btn-roll{
-padding:11px 21px;border:0;border-radius:9px;color:#fff;font-size:16px;
-font-weight:900;cursor:pointer;background:linear-gradient(145deg,#fb7185,#ef4444 45%,#991b1b);
-box-shadow:inset 0 1px #ffffff66,inset 0 -4px 8px #450a0a66,
-0 6px 0 #7f1d1d,0 12px 20px #ef444455;transition:.12s
+padding:11px 21px;
+border:0;
+border-radius:9px;
+color:#fff;
+font-size:16px;
+font-weight:900;
+cursor:pointer;
+background:#ef2222;
+box-shadow:
+0 6px 0 #991b1b,
+0 12px 20px #ef444455
 }
-.btn-roll:active{transform:translateY(5px);box-shadow:inset 0 -2px 5px #450a0a66,0 1px 0 #7f1d1d}
-.btn-roll:disabled{opacity:.45;cursor:not-allowed}
+
+.btn-roll:active{
+transform:translateY(5px);
+box-shadow:0 1px 0 #991b1b
+}
+
 @media(max-width:480px){
 h1{font-size:18px}
-.mode-btn{padding:6px 9px;font-size:11px}
-.dice-view{width:58px;height:58px}
-.btn-roll{font-size:14px;padding:10px 16px}
-.status-box{font-size:13px}
+.mode-btn{
+padding:6px 9px;
+font-size:11px
+}
+.dice-view{
+width:58px;
+height:58px
+}
+.btn-roll{
+font-size:14px;
+padding:10px 16px
+}
+.status-box{
+font-size:13px
+}
 }
 </style>
 </head>
@@ -93,6 +194,7 @@ h1{font-size:18px}
 
 <div class="controls">
 <div class="status-box" id="statusText">RED की बारी - पासा फेंको</div>
+
 <div class="dice-container">
 <div class="dice-view" id="diceVal">-</div>
 <button class="btn-roll" id="rollBtn">पासा फेंको 🎲</button>
@@ -102,6 +204,7 @@ h1{font-size:18px}
 <script>
 const canvas=document.getElementById("ludoCanvas");
 const ctx=canvas.getContext("2d");
+
 const tileSize=30;
 
 let turn="red";
@@ -140,7 +243,9 @@ yellow:26,
 blue:39
 };
 
-const safePositions=[0,6,13,19,26,32,39,45];
+const safePositions=[
+0,6,13,19,26,32,39,45
+];
 
 const homePaths={
 red:[[1,7],[2,7],[3,7],[4,7],[5,7],[6,7]],
@@ -156,18 +261,21 @@ red:[
 {pos:-1,base:[2.5,3.5]},
 {pos:-1,base:[3.5,3.5]}
 ],
+
 green:[
 {pos:-1,base:[11.5,2.5]},
 {pos:-1,base:[12.5,2.5]},
 {pos:-1,base:[11.5,3.5]},
 {pos:-1,base:[12.5,3.5]}
 ],
+
 yellow:[
 {pos:-1,base:[11.5,11.5]},
 {pos:-1,base:[12.5,11.5]},
 {pos:-1,base:[11.5,12.5]},
 {pos:-1,base:[12.5,12.5]}
 ],
+
 blue:[
 {pos:-1,base:[2.5,11.5]},
 {pos:-1,base:[3.5,11.5]},
@@ -180,13 +288,17 @@ function initAudio(){
 if(!audioCtx){
 audioCtx=new(window.AudioContext||window.webkitAudioContext)();
 }
-if(audioCtx.state==="suspended")audioCtx.resume();
+if(audioCtx.state==="suspended"){
+audioCtx.resume();
+}
 }
 
 function tone(freq,duration,type="triangle",volume=.15,end=null){
+
 initAudio();
 
 const now=audioCtx.currentTime;
+
 const osc=audioCtx.createOscillator();
 const gain=audioCtx.createGain();
 
@@ -203,176 +315,245 @@ gain.gain.exponentialRampToValueAtTime(.001,now+duration);
 
 osc.connect(gain);
 gain.connect(audioCtx.destination);
+
 osc.start(now);
 osc.stop(now+duration+.02);
 }
 
 function diceSound(){
-for(let i=0;i<14;i++){
+
+for(let i=0;i<15;i++){
+
 setTimeout(()=>{
-tone(120+Math.random()*650,.055,"square",.12);
-},i*42);
+
+tone(
+100+Math.random()*700,
+.055,
+"square",
+.13
+);
+
+},i*40);
 }
 }
 
 function stepSound(){
-tone(430,.08,"triangle",.18,240);
+
+tone(430,.075,"triangle",.18,230);
+
 setTimeout(()=>{
-tone(650,.05,"triangle",.09,400);
+tone(620,.05,"triangle",.09,390);
 },35);
 }
 
 function killSound(){
-tone(260,.28,"sawtooth",.25,55);
+
+tone(280,.25,"sawtooth",.25,55);
+
 setTimeout(()=>{
-tone(80,.2,"square",.17,35);
+tone(90,.2,"square",.18,35);
 },100);
 }
 
 function bonusSound(){
+
 tone(500,.12,"square",.12,650);
-setTimeout(()=>tone(700,.12,"square",.12,850),100);
-setTimeout(()=>tone(950,.18,"square",.14,1100),200);
+
+setTimeout(()=>{
+tone(700,.12,"square",.12,850);
+},100);
+
+setTimeout(()=>{
+tone(950,.18,"square",.14,1100);
+},200);
 }
 
 function homeSound(){
+
 [523,659,784,1046].forEach((freq,i)=>{
-setTimeout(()=>tone(freq,.23,"sine",.17),i*90);
+setTimeout(()=>{
+tone(freq,.23,"sine",.17);
+},i*90);
 });
 }
 
 function winSound(){
+
 [523,659,784,1046,1318].forEach((freq,i)=>{
-setTimeout(()=>tone(freq,.3,"sine",.18),i*110);
+setTimeout(()=>{
+tone(freq,.3,"sine",.18);
+},i*110);
 });
 }
 
 function setGameMode(mode,btn){
+
 gameMode=mode;
-document.querySelectorAll(".mode-btn").forEach(b=>b.classList.remove("active"));
+
+document
+.querySelectorAll(".mode-btn")
+.forEach(b=>b.classList.remove("active"));
+
 btn.classList.add("active");
+
 resetGame();
 }
 
 function resetGame(){
+
 turn=activePlayers[gameMode][0];
 diceValue=0;
 canRoll=true;
 moving=false;
 
-for(const c in tokens){
-tokens[c].forEach(t=>t.pos=-1);
+for(const color in tokens){
+tokens[color].forEach(t=>t.pos=-1);
 }
 
 document.getElementById("diceVal").innerText="-";
+
 document.getElementById("statusText").innerText=
 `${turn.toUpperCase()} की बारी - पासा फेंको`;
 
 drawBoard();
 }
 
-function draw3DBase(col,row,w,h,color){
+function colorData(color){
+
+return{
+red:{
+main:"#ef1d25",
+dark:"#b90e16",
+deep:"#7f0710",
+light:"#ff4b50"
+},
+
+green:{
+main:"#16c75b",
+dark:"#0c9b43",
+deep:"#057032",
+light:"#3ee87d"
+},
+
+yellow:{
+main:"#ffd400",
+dark:"#e5a900",
+deep:"#a56f00",
+light:"#ffe94a"
+},
+
+blue:{
+main:"#315cff",
+dark:"#1742d0",
+deep:"#102d9b",
+light:"#6282ff"
+}
+}[color];
+}
+
+function solidColorBox(col,row,w,h,color){
+
+const d=colorData(color);
+
 const x=col*tileSize;
 const y=row*tileSize;
 const width=w*tileSize;
 const height=h*tileSize;
 
-ctx.save();
-ctx.shadowColor="#0008";
-ctx.shadowBlur=8;
-ctx.shadowOffsetY=4;
-
-const g=ctx.createLinearGradient(x,y,x+width,y+height);
-g.addColorStop(0,color);
-g.addColorStop(.55,color);
-g.addColorStop(1,"#0008");
-
-ctx.fillStyle=g;
+ctx.fillStyle=d.main;
 ctx.fillRect(x,y,width,height);
-ctx.restore();
 
-ctx.strokeStyle="#334155";
+ctx.strokeStyle=d.deep;
+ctx.lineWidth=1.5;
 ctx.strokeRect(x,y,width,height);
+
+ctx.fillStyle=d.light;
+
+ctx.globalAlpha=.16;
+ctx.fillRect(x+2,y+2,width-4,4);
+
+ctx.globalAlpha=1;
 }
 
-function drawBox(col,row,w,h,color){
+function pathBox(col,row){
+
 const x=col*tileSize;
 const y=row*tileSize;
 
-const g=ctx.createLinearGradient(x,y,x+tileSize,y+tileSize);
-g.addColorStop(0,color);
-g.addColorStop(.75,color);
-g.addColorStop(1,"#0004");
+ctx.fillStyle="#e2e8f0";
+ctx.fillRect(x+1,y+1,tileSize-2,tileSize-2);
 
-ctx.fillStyle=g;
-ctx.fillRect(x,y,w*tileSize,h*tileSize);
-
-ctx.strokeStyle="#475569";
-ctx.strokeRect(x,y,w*tileSize,h*tileSize);
+ctx.strokeStyle="#94a3b8";
+ctx.lineWidth=1;
+ctx.strokeRect(x+1,y+1,tileSize-2,tileSize-2);
 }
 
-function drawPlus(cx,cy,color="#64748b",strong=false){
+function star(cx,cy,color){
+
 ctx.save();
 
-ctx.lineWidth=strong?2.3:1.4;
-ctx.lineCap="round";
-
-ctx.strokeStyle=color;
-
 ctx.beginPath();
-ctx.moveTo(cx-7,cy);
-ctx.lineTo(cx+7,cy);
-ctx.moveTo(cx,cy-7);
-ctx.lineTo(cx,cy+7);
+
+for(let i=0;i<10;i++){
+
+const angle=-Math.PI/2+i*Math.PI/5;
+const radius=i%2===0?9:4;
+
+const x=cx+Math.cos(angle)*radius;
+const y=cy+Math.sin(angle)*radius;
+
+if(i===0){
+ctx.moveTo(x,y);
+}else{
+ctx.lineTo(x,y);
+}
+}
+
+ctx.closePath();
+
+ctx.fillStyle="#facc15";
+ctx.fill();
+
+ctx.strokeStyle="#b45309";
+ctx.lineWidth=1.5;
 ctx.stroke();
 
 ctx.restore();
 }
 
-function drawStar(cx,cy,points,outer,inner){
-let angle=-Math.PI/2;
+function arrow(col,row,dir,color){
 
-ctx.beginPath();
+const d=colorData(color);
 
-for(let i=0;i<points*2;i++){
-const radius=i%2===0?outer:inner;
-
-const x=cx+Math.cos(angle)*radius;
-const y=cy+Math.sin(angle)*radius;
-
-if(i===0)ctx.moveTo(x,y);
-else ctx.lineTo(x,y);
-
-angle+=Math.PI/points;
-}
-
-ctx.closePath();
-ctx.fill();
-}
-
-function drawArrow(col,row,dir,color){
 const x=col*tileSize;
 const y=row*tileSize;
 
-ctx.fillStyle=color;
+ctx.fillStyle=d.main;
+
 ctx.beginPath();
 
 if(dir==="right"){
-ctx.moveTo(x,y);
-ctx.lineTo(x+tileSize,y+15);
-ctx.lineTo(x,y+tileSize);
-}else if(dir==="left"){
-ctx.moveTo(x+tileSize,y);
-ctx.lineTo(x,y+15);
-ctx.lineTo(x+tileSize,y+tileSize);
-}else if(dir==="down"){
-ctx.moveTo(x,y);
-ctx.lineTo(x+15,y+tileSize);
-ctx.lineTo(x+tileSize,y);
-}else{
-ctx.moveTo(x,y+tileSize);
-ctx.lineTo(x+15,y);
-ctx.lineTo(x+tileSize,y+tileSize);
+ctx.moveTo(x+3,y+4);
+ctx.lineTo(x+27,y+15);
+ctx.lineTo(x+3,y+26);
+}
+
+if(dir==="left"){
+ctx.moveTo(x+27,y+4);
+ctx.lineTo(x+3,y+15);
+ctx.lineTo(x+27,y+26);
+}
+
+if(dir==="down"){
+ctx.moveTo(x+4,y+3);
+ctx.lineTo(x+15,y+27);
+ctx.lineTo(x+26,y+3);
+}
+
+if(dir==="up"){
+ctx.moveTo(x+4,y+27);
+ctx.lineTo(x+15,y+3);
+ctx.lineTo(x+26,y+27);
 }
 
 ctx.closePath();
@@ -383,169 +564,97 @@ function drawBoard(){
 
 ctx.clearRect(0,0,450,450);
 
-ctx.fillStyle="#fff";
+ctx.fillStyle="#dbe2ea";
 ctx.fillRect(0,0,450,450);
-
-/* 52 Common Boxes + Fixed Plus Center */
 
 commonPath.forEach((p,index)=>{
 
-const x=p[0]*tileSize;
-const y=p[1]*tileSize;
-const cx=x+tileSize/2;
-const cy=y+tileSize/2;
-
-const g=ctx.createLinearGradient(
-x,y,x+tileSize,y+tileSize
-);
-
-g.addColorStop(0,"#ffffff");
-g.addColorStop(.55,"#f8fafc");
-g.addColorStop(1,"#cbd5e1");
-
-ctx.fillStyle=g;
-ctx.fillRect(x+1,y+1,tileSize-2,tileSize-2);
-
-ctx.strokeStyle="#94a3b8";
-ctx.strokeRect(x+1,y+1,tileSize-2,tileSize-2);
-
-/* हर box का fixed PLUS */
-
-if(!safePositions.includes(index)){
-drawPlus(cx,cy,"#64748b",false);
-}
+pathBox(p[0],p[1]);
 
 if(safePositions.includes(index)){
-
-ctx.save();
-
-ctx.shadowColor="#facc15";
-ctx.shadowBlur=10;
-
-ctx.fillStyle="#facc15";
-
-drawStar(cx,cy,5,9,4);
-
-ctx.restore();
-
-/* Star के अंदर भी Plus */
-
-drawPlus(cx,cy,"#ffffff",true);
+star(
+p[0]*30+15,
+p[1]*30+15
+);
 }
-
 });
 
-/* FULL COLOR BASE */
+solidColorBox(0,0,6,6,"red");
+solidColorBox(9,0,6,6,"green");
+solidColorBox(9,9,6,6,"yellow");
+solidColorBox(0,9,6,6,"blue");
 
-draw3DBase(0,0,6,6,"#ef4444");
-draw3DBase(9,0,6,6,"#22c55e");
-draw3DBase(9,9,6,6,"#facc15");
-draw3DBase(0,9,6,6,"#3b82f6");
+ctx.fillStyle="#f8fafc";
 
-/* White Base */
+ctx.fillRect(30,30,120,120);
+ctx.fillRect(300,30,120,120);
+ctx.fillRect(300,300,120,120);
+ctx.fillRect(30,300,120,120);
 
-drawBox(1,1,4,4,"#ffffff");
-drawBox(10,1,4,4,"#ffffff");
-drawBox(10,10,4,4,"#ffffff");
-drawBox(1,10,4,4,"#ffffff");
+ctx.strokeStyle="#94a3b8";
+ctx.strokeRect(30,30,120,120);
+ctx.strokeRect(300,30,120,120);
+ctx.strokeRect(300,300,120,120);
+ctx.strokeRect(30,300,120,120);
 
-/* Base के चार fixed Plus */
+solidColorBox(1,7,5,1,"red");
+solidColorBox(7,1,1,5,"green");
+solidColorBox(9,7,5,1,"yellow");
+solidColorBox(7,9,1,5,"blue");
 
-drawPlus(75,75,"#94a3b8",true);
-drawPlus(105,75,"#94a3b8",true);
-drawPlus(75,105,"#94a3b8",true);
-drawPlus(105,105,"#94a3b8",true);
+solidColorBox(1,6,1,1,"red");
+solidColorBox(8,1,1,1,"green");
+solidColorBox(13,8,1,1,"yellow");
+solidColorBox(6,13,1,1,"blue");
 
-drawPlus(375,75,"#94a3b8",true);
-drawPlus(405,75,"#94a3b8",true);
-drawPlus(375,105,"#94a3b8",true);
-drawPlus(405,105,"#94a3b8",true);
+arrow(0,7,"right","red");
+arrow(7,0,"down","green");
+arrow(14,7,"left","yellow");
+arrow(7,14,"up","blue");
 
-drawPlus(375,375,"#94a3b8",true);
-drawPlus(405,375,"#94a3b8",true);
-drawPlus(375,405,"#94a3b8",true);
-drawPlus(405,405,"#94a3b8",true);
-
-drawPlus(75,375,"#94a3b8",true);
-drawPlus(105,375,"#94a3b8",true);
-drawPlus(75,405,"#94a3b8",true);
-drawPlus(105,405,"#94a3b8",true);
-
-/* Home Paths */
-
-for(let i=1;i<6;i++){
-
-drawBox(i,7,1,1,"#ef4444");
-drawBox(7,i,1,1,"#22c55e");
-drawBox(14-i,7,1,1,"#facc15");
-drawBox(7,14-i,1,1,"#3b82f6");
-}
-
-/* Home Path Plus */
-
-for(let i=1;i<6;i++){
-
-drawPlus(
-i*30+15,
-225,
-"#ffffff",
-true
-);
-
-drawPlus(
-225,
-i*30+15,
-"#ffffff",
-true
-);
-
-drawPlus(
-(14-i)*30+15,
-225,
-"#ffffff",
-true
-);
-
-drawPlus(
-225,
-(14-i)*30+15,
-"#ffffff",
-true
-);
-}
-
-drawBox(1,6,1,1,"#ef4444");
-drawBox(8,1,1,1,"#22c55e");
-drawBox(13,8,1,1,"#facc15");
-drawBox(6,13,1,1,"#3b82f6");
-
-drawArrow(0,7,"right","#ef4444");
-drawArrow(7,0,"down","#22c55e");
-drawArrow(14,7,"left","#facc15");
-drawArrow(7,14,"up","#3b82f6");
-
-/* Center */
-
-const center=ctx.createRadialGradient(
-225,225,5,225,225,65
-);
-
-center.addColorStop(0,"#64748b");
-center.addColorStop(.45,"#334155");
-center.addColorStop(1,"#020617");
-
-ctx.fillStyle=center;
-ctx.shadowColor="#000b";
-ctx.shadowBlur=12;
-
+ctx.fillStyle="#334155";
 ctx.fillRect(180,180,90,90);
 
-ctx.shadowBlur=0;
+ctx.fillStyle="#ef1d25";
+
+ctx.beginPath();
+ctx.moveTo(180,180);
+ctx.lineTo(225,225);
+ctx.lineTo(180,270);
+ctx.closePath();
+ctx.fill();
+
+ctx.fillStyle="#16c75b";
+
+ctx.beginPath();
+ctx.moveTo(180,180);
+ctx.lineTo(270,180);
+ctx.lineTo(225,225);
+ctx.closePath();
+ctx.fill();
+
+ctx.fillStyle="#ffd400";
+
+ctx.beginPath();
+ctx.moveTo(270,180);
+ctx.lineTo(270,270);
+ctx.lineTo(225,225);
+ctx.closePath();
+ctx.fill();
+
+ctx.fillStyle="#315cff";
+
+ctx.beginPath();
+ctx.moveTo(180,270);
+ctx.lineTo(270,270);
+ctx.lineTo(225,225);
+ctx.closePath();
+ctx.fill();
 
 ctx.fillStyle="#fff";
-ctx.font="bold 14px sans-serif";
+ctx.font="bold 13px Segoe UI";
 ctx.textAlign="center";
-ctx.fillText("HOME 🏆",225,232);
+ctx.fillText("HOME 🏆",225,230);
 ctx.textAlign="start";
 
 drawTokens();
@@ -557,196 +666,169 @@ let cx,cy;
 
 if(t.pos===-1){
 
-cx=t.base[0]*tileSize;
-cy=t.base[1]*tileSize;
+cx=t.base[0]*30;
+cy=t.base[1]*30;
 
 }else if(t.pos>=52){
 
 const p=homePaths[color][t.pos-52];
 
-cx=p[0]*tileSize+15;
-cy=p[1]*tileSize+15;
+cx=p[0]*30+15;
+cy=p[1]*30+15;
 
 }else{
 
-const index=
-(startIndices[color]+t.pos)%52;
-
+const index=(startIndices[color]+t.pos)%52;
 const p=commonPath[index];
 
-cx=p[0]*tileSize+15;
-cy=p[1]*tileSize+15;
+cx=p[0]*30+15;
+cy=p[1]*30+15;
 }
 
 return{cx,cy};
 }
 
-function tokenGradient(cx,cy,color){
+function drawToken(color,t){
 
-const colors={
-red:["#fff","#ff3333","#dc2626","#450000"],
-green:["#fff","#34d399","#16a34a","#064e3b"],
-yellow:["#fff","#fde047","#eab308","#713f12"],
-blue:["#fff","#60a5fa","#2563eb","#172554"]
-};
-
-const c=colors[color];
-
-const g=ctx.createRadialGradient(
-cx-5,cy-6,1,cx,cy,17
-);
-
-g.addColorStop(0,c[0]);
-g.addColorStop(.12,c[1]);
-g.addColorStop(.55,c[1]);
-g.addColorStop(.82,c[2]);
-g.addColorStop(1,c[3]);
-
-return g;
-}
-
-function draw3DToken(color,token){
-
-const {cx,cy}=getTokenXY(color,token);
-
-/* Shadow */
+const p=getTokenXY(color,t);
+const d=colorData(color);
 
 ctx.save();
 
 ctx.beginPath();
 
 ctx.ellipse(
-cx+2,
-cy+9,
-14,
-6,
+p.cx+2,
+p.cy+10,
+13,
+5,
 0,
 0,
 Math.PI*2
 );
 
-ctx.fillStyle="#0009";
-ctx.filter="blur(2px)";
+ctx.fillStyle=d.deep;
+ctx.globalAlpha=.7;
 ctx.fill();
 
-ctx.restore();
-
-/* Lower depth */
+ctx.globalAlpha=1;
 
 ctx.beginPath();
+ctx.arc(p.cx,p.cy+3,14,0,Math.PI*2);
 
-ctx.arc(cx,cy+3,14,0,Math.PI*2);
-
-ctx.fillStyle="#0008";
+ctx.fillStyle=d.deep;
 ctx.fill();
 
-/* Main enlarged token */
-
 ctx.beginPath();
+ctx.arc(p.cx,p.cy,13,0,Math.PI*2);
 
-ctx.arc(cx,cy,13,0,Math.PI*2);
+const g=ctx.createRadialGradient(
+p.cx-5,
+p.cy-6,
+1,
+p.cx,
+p.cy,
+14
+);
 
-ctx.fillStyle=tokenGradient(cx,cy,color);
+g.addColorStop(0,d.light);
+g.addColorStop(.45,d.main);
+g.addColorStop(.8,d.dark);
+g.addColorStop(1,d.deep);
+
+ctx.fillStyle=g;
 ctx.fill();
 
-ctx.lineWidth=2.3;
-ctx.strokeStyle="#fff";
-ctx.stroke();
-
-/* Bottom depth */
-
-ctx.beginPath();
-
-ctx.arc(cx,cy+2,10,0,Math.PI);
-
-ctx.strokeStyle="#0006";
+ctx.strokeStyle=d.deep;
 ctx.lineWidth=2;
 ctx.stroke();
-
-/* Highlight */
 
 ctx.beginPath();
 
 ctx.ellipse(
-cx-4,
-cy-6,
-4,
-2.7,
--.35,
+p.cx-4,
+p.cy-6,
+3.5,
+2,
+-.3,
 0,
 Math.PI*2
 );
 
-ctx.fillStyle="#ffffffdd";
+ctx.fillStyle=d.light;
 ctx.fill();
-
-ctx.beginPath();
-
-ctx.arc(cx+4,cy-4,1.5,0,Math.PI*2);
-
-ctx.fillStyle="#fff9";
-ctx.fill();
-
-/* Legal move ring */
 
 if(
 !canRoll &&
 diceValue>0 &&
 turn===color &&
-canTokenMove(color,token)
+canTokenMove(color,t)
 ){
-
-ctx.save();
 
 ctx.beginPath();
 
-ctx.arc(cx,cy,17,0,Math.PI*2);
+ctx.arc(
+p.cx,
+p.cy,
+17,
+0,
+Math.PI*2
+);
 
 ctx.strokeStyle="#facc15";
 ctx.lineWidth=2.5;
 ctx.shadowColor="#facc15";
-ctx.shadowBlur=12;
-
+ctx.shadowBlur=10;
 ctx.stroke();
+}
 
 ctx.restore();
-}
 }
 
 function drawTokens(){
 
 activePlayers[gameMode].forEach(color=>{
 
-tokens[color].forEach(token=>{
-draw3DToken(color,token);
+tokens[color].forEach(t=>{
+drawToken(color,t);
 });
 
 });
 }
 
-function canTokenMove(color,token){
+function canTokenMove(color,t){
 
-if(token.pos===-1)return diceValue===6;
+if(t.pos===-1){
+return diceValue===6;
+}
 
-if(token.pos>=57)return false;
+if(t.pos>=57){
+return false;
+}
 
-return token.pos+diceValue<=57;
+return t.pos+diceValue<=57;
 }
 
 function getGlobalPosition(color,pos){
 
-if(pos<0||pos>=52)return-1;
+if(pos<0||pos>=52){
+return-1;
+}
 
 return(startIndices[color]+pos)%52;
 }
 
-function checkKill(color,token){
+function checkKill(color,t){
 
-if(token.pos<0||token.pos>=52)return false;
+if(t.pos<0||t.pos>=52){
+return false;
+}
 
-const global=getGlobalPosition(color,token.pos);
+const global=getGlobalPosition(color,t.pos);
 
-if(safePositions.includes(global))return false;
+if(safePositions.includes(global)){
+return false;
+}
 
 let killed=false;
 
@@ -769,7 +851,9 @@ killed=true;
 });
 });
 
-if(killed)killSound();
+if(killed){
+killSound();
+}
 
 return killed;
 }
@@ -778,27 +862,27 @@ function wait(ms){
 return new Promise(resolve=>setTimeout(resolve,ms));
 }
 
-async function animateMove(color,token){
+async function animateMove(color,t){
 
 if(moving)return;
 
 moving=true;
 
-if(token.pos===-1){
+if(t.pos===-1){
 
-token.pos=0;
+t.pos=0;
 
 stepSound();
 
 drawBoard();
 
-await wait(250);
+await wait(240);
 
 }else{
 
 for(let i=0;i<diceValue;i++){
 
-token.pos++;
+t.pos++;
 
 stepSound();
 
@@ -808,7 +892,7 @@ await wait(190);
 }
 }
 
-if(token.pos===57){
+if(t.pos===57){
 
 homeSound();
 
@@ -818,7 +902,7 @@ document.getElementById("statusText").innerText=
 await wait(400);
 }
 
-const killed=checkKill(color,token);
+const killed=checkKill(color,t);
 
 drawBoard();
 
@@ -859,7 +943,9 @@ switchTurn();
 
 function checkWinner(color){
 
-const finished=tokens[color].filter(t=>t.pos===57).length;
+const finished=tokens[color]
+.filter(t=>t.pos===57)
+.length;
 
 if(finished===4){
 
@@ -878,6 +964,7 @@ function rollDice(){
 if(!canRoll||moving)return;
 
 initAudio();
+
 diceSound();
 
 canRoll=false;
@@ -909,9 +996,8 @@ setTimeout(finishDiceRoll,150);
 
 function finishDiceRoll(){
 
-const movable=tokens[turn].some(
-t=>canTokenMove(turn,t)
-);
+const movable=tokens[turn]
+.some(t=>canTokenMove(turn,t));
 
 document.getElementById("statusText").innerText=
 `${turn.toUpperCase()} को ${diceValue} मिला! गोटी चुनें`;
@@ -954,21 +1040,21 @@ moving||
 
 const rect=canvas.getBoundingClientRect();
 
-const scaleX=canvas.width/rect.width;
-const scaleY=canvas.height/rect.height;
+const scaleX=450/rect.width;
+const scaleY=450/rect.height;
 
 const x=(e.clientX-rect.left)*scaleX;
 const y=(e.clientY-rect.top)*scaleY;
 
-for(const token of tokens[turn]){
+for(const t of tokens[turn]){
 
-if(!canTokenMove(turn,token))continue;
+if(!canTokenMove(turn,t))continue;
 
-const p=getTokenXY(turn,token);
+const p=getTokenXY(turn,t);
 
-if(Math.hypot(x-p.cx,y-p.cy)<21){
+if(Math.hypot(x-p.cx,y-p.cy)<22){
 
-animateMove(turn,token);
+animateMove(turn,t);
 
 break;
 }
@@ -983,11 +1069,11 @@ e=>{
 
 if(!e.touches.length)return;
 
-const t=e.touches[0];
+const touch=e.touches[0];
 
 boardClick({
-clientX:t.clientX,
-clientY:t.clientY
+clientX:touch.clientX,
+clientY:touch.clientY
 });
 
 },
@@ -999,9 +1085,7 @@ function makeAIMove(){
 if(turn!=="green"||moving)return;
 
 const possible=tokens.green
-.map((token,index)=>
-canTokenMove("green",token)?index:-1
-)
+.map((t,i)=>canTokenMove("green",t)?i:-1)
 .filter(i=>i>=0);
 
 if(!possible.length){
@@ -1018,7 +1102,9 @@ const outside=possible.find(
 i=>tokens.green[i].pos===-1
 );
 
-if(outside!==undefined)selected=outside;
+if(outside!==undefined){
+selected=outside;
+}
 
 }else{
 
