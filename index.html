@@ -1,470 +1,139 @@
 <!DOCTYPE html>
 <html lang="hi">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-<title>Real Ludo Game</title>
-<style>
-*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-body{margin:0;background:linear-gradient(135deg,#111827,#020617);font-family:Arial,sans-serif;color:#fff;min-height:100vh;display:flex;justify-content:center;align-items:center;padding:12px}
-.app{width:min(100%,650px);display:flex;flex-direction:column;gap:10px}
-.top{display:flex;justify-content:space-between;align-items:center;background:#111827;border:1px solid #334155;border-radius:18px;padding:10px 14px;box-shadow:0 10px 30px #0008}
-.title{font-size:22px;font-weight:900}
-.mode{display:flex;gap:6px}
-.mode button{border:0;border-radius:10px;padding:8px 10px;background:#334155;color:#fff;font-weight:800}
-.mode button.active{background:#ec4899}
-.status{background:#111827;border:1px solid #334155;border-radius:15px;padding:9px;text-align:center;font-weight:800;font-size:14px}
-.boardWrap{width:100%;aspect-ratio:1;background:#e5e7eb;border-radius:22px;padding:5px;box-shadow:0 15px 40px #0009}
-.board{position:relative;width:100%;height:100%;display:grid;grid-template-columns:repeat(15,1fr);grid-template-rows:repeat(15,1fr);background:#fff;border-radius:17px;overflow:hidden}
-.cell{border:1px solid #cbd5e1;position:relative;display:flex;align-items:center;justify-content:center;font-size:10px}
-.path{background:#fff}
-.safe{background:#fef3c7!important}
-.star{font-size:16px!important;color:#ca8a04}
-.redCell{background:#fecaca!important}
-.greenCell{background:#bbf7d0!important}
-.yellowCell{background:#fef08a!important}
-.blueCell{background:#bfdbfe!important}
-.homeRed{background:#fee2e2!important}
-.homeGreen{background:#dcfce7!important}
-.homeYellow{background:#fef9c3!important}
-.homeBlue{background:#dbeafe!important}
-.center{grid-column:6/11;grid-row:6/11;background:conic-gradient(#ef4444 0 25%,#22c55e 25% 50%,#3b82f6 50% 75%,#eab308 75%);display:flex;align-items:center;justify-content:center;z-index:2;clip-path:polygon(50% 0,100% 50%,50% 100%,0 50%)}
-.center span{background:#fff;border-radius:50%;width:36%;height:36%;display:flex;align-items:center;justify-content:center;color:#111;font-size:10px;font-weight:900}
-.base{position:absolute;width:33.333%;height:33.333%;padding:8px;z-index:3}
-.base.red{left:0;top:0;background:#ef4444}
-.base.green{right:0;top:0;background:#22c55e}
-.base.blue{left:0;bottom:0;background:#3b82f6}
-.base.yellow{right:0;bottom:0;background:#eab308}
-.baseInner{width:100%;height:100%;background:#fff;border-radius:13px;display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;padding:10px;gap:8px}
-.base.red .baseInner{background:#fee2e2}
-.base.green .baseInner{background:#dcfce7}
-.base.blue .baseInner{background:#dbeafe}
-.base.yellow .baseInner{background:#fef9c3}
-.token{width:72%;height:72%;border-radius:50%;border:3px solid #fff;box-shadow:0 3px 8px #0007;cursor:pointer;position:relative;z-index:20;transition:transform .15s}
-.token.red{background:#dc2626}
-.token.green{background:#16a34a}
-.token.yellow{background:#ca8a04}
-.token.blue{background:#2563eb}
-.token.movable{animation:pulse .7s infinite alternate;box-shadow:0 0 0 4px #fff,0 0 18px #fff}
-@keyframes pulse{from{transform:scale(1)}to{transform:scale(1.16)}}
-.boardToken{position:absolute;width:5.2%;height:5.2%;z-index:15;transition:left .16s linear,top .16s linear;transform:translate(-50%,-50%)}
-.boardToken .token{width:100%;height:100%}
-.dicePanel{display:flex;align-items:center;gap:12px;background:#111827;border:1px solid #334155;border-radius:18px;padding:10px}
-.dice{width:64px;height:64px;background:#fff;color:#111;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:34px;font-weight:900;box-shadow:0 8px 20px #0006}
-.dice.roll{animation:roll .7s ease}
-@keyframes roll{0%{transform:rotate(0) scale(1)}25%{transform:rotate(90deg) scale(.8)}50%{transform:rotate(180deg) scale(1.1)}75%{transform:rotate(270deg) scale(.8)}100%{transform:rotate(360deg) scale(1)}}
-.rollBtn{flex:1;border:0;border-radius:14px;background:#ec4899;color:#fff;font-size:18px;font-weight:900;padding:15px;box-shadow:0 6px 15px #0005}
-.rollBtn:disabled{opacity:.4}
-.info{display:flex;justify-content:space-between;gap:8px}
-.infoBox{flex:1;background:#111827;border:1px solid #334155;border-radius:13px;padding:9px;text-align:center;font-size:12px}
-.log{background:#111827;border:1px solid #334155;border-radius:15px;padding:8px;font-size:12px;min-height:38px;text-align:center}
-@media(max-width:420px){
-body{padding:6px}
-.top{padding:8px 10px}.title{font-size:18px}.mode button{padding:7px 6px;font-size:11px}
-.boardWrap{border-radius:15px}.base{padding:5px}.baseInner{padding:6px;gap:5px}
-.dice{width:56px;height:56px;font-size:28px}.rollBtn{padding:13px;font-size:16px}
-}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Real Ludo Game</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: sans-serif; }
+        body { background: #0f172a; color: white; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; padding: 10px; }
+        h1 { color: #38bdf8; margin-bottom: 10px; font-size: 24px; }
+        
+        .board-container { width: 340px; height: 340px; background: white; border: 4px solid #333; display: grid; grid-template-columns: repeat(15, 1fr); grid-template-rows: repeat(15, 1fr); position: relative; border-radius: 8px; overflow: hidden; }
+        .cell { border: 1px solid #ddd; display: flex; align-items: center; justify-content: center; position: relative; font-size: 10px; }
+        
+        /* बेस कलर */
+        .red-base { grid-column: 1 / 7; grid-row: 1 / 7; background: #ef4444; padding: 15px; }
+        .green-base { grid-column: 10 / 16; grid-row: 1 / 7; background: #22c55e; padding: 15px; }
+        .blue-base { grid-column: 1 / 7; grid-row: 10 / 16; background: #3b82f6; padding: 15px; }
+        .yellow-base { grid-column: 10 / 16; grid-row: 10 / 16; background: #eab308; padding: 15px; }
+        
+        .base-inner { width: 100%; height: 100%; background: white; border-radius: 8px; display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; padding: 5px; gap: 5px; }
+        .home-box { grid-column: 7 / 10; grid-row: 7 / 10; background: conic-gradient(#ef4444 0 90deg, #22c55e 90deg 180deg, #eab308 180deg 270deg, #3b82f6 270deg 360deg); display: flex; align-items: center; justify-content: center; font-weight: bold; color: white; text-shadow: 1px 1px 2px black; }
+
+        /* पाथ कलर */
+        .bg-red { background: #ef4444 !important; }
+        .bg-green { background: #22c55e !important; }
+        .bg-yellow { background: #eab308 !important; }
+        .bg-blue { background: #3b82f6 !important; }
+        .safe { background: #e2e8f0; }
+        .safe::after { content: "★"; font-size: 12px; color: #64748b; }
+
+        /* कंट्रोलर */
+        .controls { margin-top: 15px; display: flex; flex-direction: column; align-items: center; gap: 10px; }
+        .status { font-size: 18px; font-weight: bold; }
+        .dice-area { display: flex; align-items: center; gap: 15px; }
+        .dice-box { width: 50px; height: 50px; background: white; color: black; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 24px; font-weight: bold; border: 2px solid #38bdf8; }
+        .btn { padding: 10px 20px; background: #ef4444; color: white; border: none; border-radius: 6px; font-size: 16px; font-weight: bold; cursor: pointer; }
+
+        /* गोटी डिजाइन */
+        .pawn { width: 16px; height: 16px; border-radius: 50%; border: 2px solid white; box-shadow: 0 2px 4px rgba(0,0,0,0.5); margin: auto; cursor: pointer; }
+        .pawn-red { background: #dc2626; }
+        .pawn-green { background: #16a34a; }
+    </style>
 </head>
 <body>
-<div class="app">
-<div class="top">
-<div class="title">🎲 REAL LUDO</div>
-<div class="mode">
-<button id="twoBtn" class="active">2 PLAYER</button>
-<button id="aiBtn">VS AI</button>
+
+<h1>Ludo Game (2 Player)</h1>
+
+<div class="board-container" id="board">
+    <!-- Red Base -->
+    <div class="red-base">
+        <div class="base-inner">
+            <div class="cell"><div class="pawn pawn-red" id="r1" onclick="moveToken('red', 0)"></div></div>
+            <div class="cell"><div class="pawn pawn-red" id="r2" onclick="moveToken('red', 1)"></div></div>
+            <div class="cell"><div class="pawn pawn-red" id="r3" onclick="moveToken('red', 2)"></div></div>
+            <div class="cell"><div class="pawn pawn-red" id="r4" onclick="moveToken('red', 3)"></div></div>
+        </div>
+    </div>
+
+    <!-- Green Base -->
+    <div class="green-base">
+        <div class="base-inner">
+            <div class="cell"><div class="pawn pawn-green" id="g1" onclick="moveToken('green', 0)"></div></div>
+            <div class="cell"><div class="pawn pawn-green" id="g2" onclick="moveToken('green', 1)"></div></div>
+            <div class="cell"><div class="pawn pawn-green" id="g3" onclick="moveToken('green', 2)"></div></div>
+            <div class="cell"><div class="pawn pawn-green" id="g4" onclick="moveToken('green', 3)"></div></div>
+        </div>
+    </div>
+
+    <!-- Blue Base -->
+    <div class="blue-base"><div class="base-inner"></div></div>
+    <!-- Yellow Base -->
+    <div class="yellow-base"><div class="base-inner"></div></div>
+
+    <!-- Home Center -->
+    <div class="home-box">HOME</div>
 </div>
-</div>
-<div id="status" class="status">🔴 Red की चाल</div>
-<div class="boardWrap"><div id="board" class="board"></div></div>
-<div class="dicePanel">
-<div id="dice" class="dice">⚀</div>
-<button id="rollBtn" class="rollBtn">पासा फेंको</button>
-</div>
-<div class="info">
-<div class="infoBox">🔴 Red<br><b id="redCount">0</b> घर</div>
-<div class="infoBox">🟢 Green<br><b id="greenCount">0</b> घर</div>
-<div class="infoBox">🟡 Yellow<br><b id="yellowCount">0</b> घर</div>
-<div class="infoBox">🔵 Blue<br><b id="blueCount">0</b> घर</div>
-</div>
-<div id="log" class="log">पासा फेंककर खेल शुरू करें</div>
+
+<div class="controls">
+    <div class="status" id="status">Red की बारी</div>
+    <div class="dice-area">
+        <div class="dice-box" id="diceValue">-</div>
+        <button class="btn" id="rollBtn" onclick="rollDice()">पासा फेंको 🎲</button>
+    </div>
 </div>
 
 <script>
-const board=document.getElementById("board");
-const statusEl=document.getElementById("status");
-const diceEl=document.getElementById("dice");
-const rollBtn=document.getElementById("rollBtn");
-const logEl=document.getElementById("log");
+    let turn = 'red';
+    let dice = 0;
+    let hasRolled = false;
 
-const colors=[
-{name:"Red",icon:"🔴",cls:"red",start:0,home:"homeRed"},
-{name:"Green",icon:"🟢",cls:"green",start:13,home:"homeGreen"},
-{name:"Yellow",icon:"🟡",cls:"yellow",start:26,home:"homeYellow"},
-{name:"Blue",icon:"🔵",cls:"blue",start:39,home:"homeBlue"}
-];
+    // ऑडियो साउंड
+    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    function playSound(freq) {
+        if (audioCtx.state === 'suspended') audioCtx.resume();
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+        gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.1);
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start();
+        osc.stop(audioCtx.currentTime + 0.1);
+    }
 
-const path=[];
-for(let x=1;x<=13;x++)path.push([x,0]);
-for(let y=1;y<=14;y++)path.push([13,y]);
-for(let x=12;x>=1;x--)path.push([x,14]);
-for(let y=13;y>=1;y--)path.push([1,y]);
-path.push([0,1],[0,2],[0,3],[0,4]);
-path.push([0,5],[0,6],[0,7],[0,8]);
-path.push([0,9],[0,10],[0,11],[0,12]);
-path.push([0,13],[1,13],[2,13],[3,13]);
-path.push([4,13],[5,13],[6,13],[7,13]);
+    function rollDice() {
+        if (hasRolled) return;
+        dice = Math.floor(Math.random() * 6) + 1;
+        document.getElementById('diceValue').innerText = dice;
+        playSound(600);
+        hasRolled = true;
 
-while(path.length>52)path.pop();
+        if (dice !== 6) {
+            setTimeout(() => {
+                switchTurn();
+            }, 1000);
+        } else {
+            document.getElementById('status').innerText = `${turn.toUpperCase()} को 6 मिला! गोटी निकालो या चाल चलो!`;
+        }
+    }
 
-const homePaths=[
-[[7,1],[7,2],[7,3],[7,4],[7,5],[7,6]],
-[[13,7],[12,7],[11,7],[10,7],[9,7],[8,7]],
-[[7,13],[7,12],[7,11],[7,10],[7,9],[7,8]],
-[[1,7],[2,7],[3,7],[4,7],[5,7],[6,7]]
-];
+    function switchTurn() {
+        turn = (turn === 'red') ? 'green' : 'red';
+        hasRolled = false;
+        document.getElementById('status').innerText = `${turn.toUpperCase()} की बारी`;
+        document.getElementById('diceValue').innerText = '-';
+    }
 
-const safe=[0,6,13,19,26,32,39,45];
-const diceFaces=["⚀","⚁","⚂","⚃","⚄","⚅"];
-
-let mode="2p";
-let current=0;
-let dice=0;
-let rolling=false;
-let gameOver=false;
-let audio=null;
-
-const players=colors.map((c,i)=>({
-...c,
-tokens:[{progress:-1},{progress:-1},{progress:-1},{progress:-1}],
-finished:0
-}));
-
-function makeBoard(){
-board.innerHTML="";
-for(let y=0;y<15;y++){
-for(let x=0;x<15;x++){
-const c=document.createElement("div");
-c.className="cell";
-c.dataset.x=x;
-c.dataset.y=y;
-board.appendChild(c);
-}
-}
-path.forEach((p,i)=>{
-const c=getCell(p[0],p[1]);
-c.classList.add("path");
-if(safe.includes(i)){c.classList.add("safe");c.innerHTML="★"}
-});
-homePaths.forEach((lane,pi)=>{
-lane.forEach(p=>{
-const c=getCell(p[0],p[1]);
-c.classList.add(colors[pi].home);
-});
-});
-const center=document.createElement("div");
-center.className="center";
-center.innerHTML="<span>HOME</span>";
-board.appendChild(center);
-
-createBases();
-renderTokens();
-}
-
-function getCell(x,y){
-return board.querySelector(`[data-x="${x}"][data-y="${y}"]`);
-}
-
-function createBases(){
-const baseData=[
-["red",0,0],
-["green",66.666,0],
-["blue",0,66.666],
-["yellow",66.666,66.666]
-];
-baseData.forEach(([cls,l,t],pi)=>{
-const b=document.createElement("div");
-b.className="base "+cls;
-b.style.left=l+"%";
-b.style.top=t+"%";
-b.innerHTML='<div class="baseInner">'+[0,1,2,3].map(n=>`<div id="base-${pi}-${n}"></div>`).join("")+"</div>";
-board.appendChild(b);
-});
-}
-
-function progressToCoord(pi,progress){
-if(progress<0)return null;
-if(progress<=51){
-let idx=(players[pi].start+progress)%52;
-return path[idx];
-}
-return homePaths[pi][progress-52];
-}
-
-function renderTokens(){
-document.querySelectorAll(".boardToken").forEach(e=>e.remove());
-players.forEach((p,pi)=>{
-p.tokens.forEach((t,ti)=>{
-if(t.progress<0)return;
-if(t.progress===57){
-const lane=homePaths[pi][5];
-const el=document.createElement("div");
-el.className="boardToken";
-el.style.left=((lane[0]+.5)/15*100)+"%";
-el.style.top=((lane[1]+.5)/15*100)+"%";
-el.innerHTML=`<div class="token ${p.cls}"></div>`;
-board.appendChild(el);
-return;
-}
-const xy=progressToCoord(pi,t.progress);
-if(!xy)return;
-const el=document.createElement("div");
-el.className="boardToken";
-el.dataset.player=pi;
-el.dataset.token=ti;
-el.style.left=((xy[0]+.5)/15*100)+"%";
-el.style.top=((xy[1]+.5)/15*100)+"%";
-const clickable=isMovable(pi,ti);
-el.innerHTML=`<div class="token ${p.cls} ${clickable?"movable":""}"></div>`;
-el.onclick=()=>clickToken(pi,ti);
-board.appendChild(el);
-});
-});
-updateCounts();
-}
-
-function updateCounts(){
-colors.forEach((c,i)=>{
-document.getElementById(c.cls+"Count").textContent=players[i].finished;
-});
-}
-
-function isActivePlayer(pi){
-if(mode==="2p")return pi<2;
-return true;
-}
-
-function legalProgress(pi,ti,d){
-const t=players[pi].tokens[ti];
-if(t.progress===57)return false;
-if(t.progress===-1)return d===6;
-if(t.progress+d>57)return false;
-return true;
-}
-
-function isMovable(pi,ti){
-if(gameOver||rolling||dice===0||pi!==current)return false;
-return legalProgress(pi,ti,dice);
-}
-
-function availableMoves(pi,d){
-return players[pi].tokens.map((_,i)=>legalProgress(pi,i,d)).filter(Boolean).length;
-}
-
-function playTone(type){
-try{
-audio=audio||new (window.AudioContext||window.webkitAudioContext)();
-const o=audio.createOscillator(),g=audio.createGain();
-o.connect(g);g.connect(audio.destination);
-let f=type==="roll"?180:type==="step"?420:type==="kill"?110:600;
-o.frequency.value=f;
-o.type=type==="kill"?"sawtooth":"square";
-g.gain.setValueAtTime(.001,audio.currentTime);
-g.gain.exponentialRampToValueAtTime(type==="kill"?.18:.08,audio.currentTime+.01);
-g.gain.exponentialRampToValueAtTime(.001,audio.currentTime+(type==="roll"?0.5:.12));
-o.start();o.stop(audio.currentTime+(type==="roll"?0.5:.12));
-}catch(e){}
-}
-
-function setStatus(){
-statusEl.textContent=players[current].icon+" "+players[current].name+" की चाल";
-}
-
-function rollDice(){
-if(rolling||gameOver||dice!==0)return;
-if(mode==="2p"&&current>1)return;
-rolling=true;
-rollBtn.disabled=true;
-diceEl.classList.remove("roll");
-void diceEl.offsetWidth;
-diceEl.classList.add("roll");
-playTone("roll");
-let count=0;
-const timer=setInterval(()=>{
-dice=Math.floor(Math.random()*6)+1;
-diceEl.textContent=diceFaces[dice-1];
-count++;
-if(count>=8){
-clearInterval(timer);
-rolling=false;
-const moves=availableMoves(current,dice);
-if(moves===0){
-logEl.textContent=players[current].name+" के पास कोई चाल नहीं है";
-setTimeout(()=>{
-const bonus=dice===6;
-dice=0;
-if(!bonus)nextTurn();
-else{
-logEl.textContent="🎁 6 आया! Bonus Turn";
-rollBtn.disabled=false;
-}
-},650);
-}else{
-logEl.textContent=players[current].name+" की "+dice+" की चाल — चमकती गोटी चुनें";
-if(mode==="ai"&&current!==0)setTimeout(aiMove,650);
-else rollBtn.disabled=false;
-}
-}
-},90);
-}
-
-function clickToken(pi,ti){
-if(!isMovable(pi,ti))return;
-moveToken(pi,ti,dice);
-}
-
-async function moveToken(pi,ti,d){
-const p=players[pi];
-let t=p.tokens[ti];
-
-if(t.progress===-1){
-t.progress=0;
-playTone("step");
-renderTokens();
-await wait(220);
-}else{
-for(let s=0;s<d;s++){
-t.progress++;
-playTone("step");
-renderTokens();
-await wait(150);
-}
-}
-
-if(t.progress===57){
-p.finished++;
-logEl.textContent=p.name+" की गोटी HOME पहुंच गई 🏠";
-}
-else{
-const global=(p.start+t.progress)%52;
-if(!safe.includes(global))killAt(pi,ti,global);
-}
-
-dice=0;
-renderTokens();
-
-if(p.finished===4){
-gameOver=true;
-rollBtn.disabled=true;
-statusEl.textContent="🏆 "+p.name+" ने गेम जीत लिया!";
-logEl.textContent="🎉 "+p.name+" WINNER!";
-return;
-}
-
-if(d===6){
-logEl.textContent="🎁 6 आया — Bonus Turn!";
-rollBtn.disabled=false;
-}else{
-nextTurn();
-}
-}
-
-function killAt(pi,ti,global){
-let killed=false;
-players.forEach((op,oi)=>{
-if(oi===pi)return;
-op.tokens.forEach((ot,oti)=>{
-if(ot.progress<0||ot.progress===57)return;
-const og=(op.start+ot.progress)%52;
-if(og===global){
-ot.progress=-1;
-killed=true;
-}
-});
-});
-if(killed){
-playTone("kill");
-logEl.textContent="💥 "+players[pi].name+" ने विरोधी की गोटी काट दी! Bonus Turn";
-}
-}
-
-function nextTurn(){
-dice=0;
-current++;
-if(mode==="2p"){
-if(current>=2)current=0;
-}else{
-if(current>=4)current=0;
-}
-setStatus();
-rollBtn.disabled=false;
-if(mode==="ai"&&current!==0)setTimeout(aiTurn,650);
-}
-
-function aiTurn(){
-if(gameOver||current===0)return;
-rollDice();
-}
-
-function aiMove(){
-const possible=players[current].tokens.map((t,i)=>legalProgress(current,i,dice)?i:-1).filter(i=>i>=0);
-if(!possible.length)return;
-let choice=possible[0];
-let killChoice=-1;
-possible.forEach(i=>{
-const t=players[current].tokens[i];
-let np=t.progress===-1?0:t.progress+dice;
-if(np<=51){
-const g=(players[current].start+np)%52;
-if(!safe.includes(g)){
-players.forEach((op,oi)=>{
-if(oi!==current)op.tokens.forEach(ot=>{
-if(ot.progress>=0&&ot.progress<52&&(op.start+ot.progress)%52===g)killChoice=i;
-});
-});
-}
-}
-});
-if(killChoice>=0)choice=killChoice;
-moveToken(current,choice,dice);
-}
-
-function wait(ms){return new Promise(r=>setTimeout(r,ms))}
-
-document.getElementById("twoBtn").onclick=()=>{
-mode="2p";
-document.getElementById("twoBtn").classList.add("active");
-document.getElementById("aiBtn").classList.remove("active");
-resetGame();
-};
-
-document.getElementById("aiBtn").onclick=()=>{
-mode="ai";
-document.getElementById("aiBtn").classList.add("active");
-document.getElementById("twoBtn").classList.remove("active");
-resetGame();
-};
-
-rollBtn.onclick=rollDice;
-
-function resetGame(){
-players.forEach(p=>{
-p.tokens.forEach(t=>t.progress=-1);
-p.finished=0;
-});
-current=0;
-dice=0;
-rolling=false;
-gameOver=false;
-diceEl.textContent="⚀";
-rollBtn.disabled=false;
-setStatus();
-logEl.textContent=mode==="ai"?"🔴 आप Red हैं — बाकी Computer है":"🔴 Red और 🟢 Green खेल रहे हैं";
-renderTokens();
-}
-
-makeBoard();
-setStatus();
+    function moveToken(color, tokenIndex) {
+        if (!hasRolled || turn !== color) return;
+        playSound(800);
+        alert(`${color.toUpperCase()} गोटी चली गई! (आगे का मूवमेंट चालू है)`);
+        switchTurn();
+    }
 </script>
+
 </body>
 </html>
